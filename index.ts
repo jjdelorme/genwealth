@@ -2,11 +2,17 @@ import express from 'express';
 import { Database } from './database';
 import { Investments } from './investments';
 import { Prospects } from './prospects';
+import { Chatbot } from './chatbot';
 
 const app: express.Application = express();
 const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
+const chatbot = new Chatbot(db);
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 
@@ -45,12 +51,20 @@ app.get('/investments/semanticSearch', async (req: express.Request, res: express
   res.json(data);
 });
 
-//app.get('/prospects')
+/** Chat with a financial advisor, 
+ * i.e. /chat?prompt=I'm%20interested%20in%20investing%20in%20real%20estate&user_id=90 */
+app.get('/chat', async (req: express.Request, res: express.Response) => {
+  const prompt: string = req.query.prompt as string;
+  const userId: number | undefined = req.query.user_id as number | undefined;
+
+  const data = await chatbot.chat(prompt, userId);
+  res.json(data);
+});
 
 // Start the server.')
 
 const port: number = parseInt(process.env.PORT ?? '8080');
 
 app.listen(port, () => {
-  console.log(`helloworld: listening on port ${port}`);
+  console.log(`GenWealth Advisor API: listening on port ${port}`);
 });

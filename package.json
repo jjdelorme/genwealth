@@ -1,7 +1,7 @@
 {
-  "name": "helloworld",
+  "name": "genwealth",
   "version": "1.0.0",
-  "description": "A simple Node.js app that responds to HTTP requests.",
+  "description": "GenWealth Advisor API.",
   "main": "index.ts",
   "scripts": {
     "start": "ts-node index.ts"
