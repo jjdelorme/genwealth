@@ -1,10 +1,12 @@
 import express from 'express';
 import { Database } from './database';
 import { Investments } from './investments';
+import { Prospects } from './prospects';
 
 const app: express.Application = express();
 const db: Database = new Database();
 const investments = new Investments(db);
+const prospects = new Prospects(db);
 
 // Routes
 
@@ -23,11 +25,23 @@ app.get('/investments/search', async (req: express.Request, res: express.Respons
 });
 
 /** Find investments with naturual language prompts 
- *  i.e. /investments/semanticSearch?prompt=hedge against high inflation */
+ *  i.e. /investments/semanticSearch?prompt=hedge%20against%20%high%20inflation */
 app.get('/investments/semanticSearch', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
 
   const data = await investments.semanticSearch(prompt);
+  res.json(data);
+});
+
+/** Find prospects with naturual language prompt and optional filters
+ *  i.e. /prospects/search?prompt=young%20aggressive%20investor&risk_profile=low&min_age=25&max_age=40 */ 
+ app.get('/prospects/search', async (req: express.Request, res: express.Response) => {
+  const prompt: string = req.query.prompt as string;
+  const riskProfile: string | undefined = req.query.risk_profile as string;
+  const minAge: number | undefined = req.query.min_age as number | undefined;  
+  const maxAge: number | undefined = req.query.max_age as number | undefined;
+
+  const data = await prospects.semanticSearch(prompt, riskProfile, minAge, maxAge);
   res.json(data);
 });
 
