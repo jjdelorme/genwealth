@@ -1,9 +1,10 @@
 import express from 'express';
+import cors from 'cors';
+import path from 'path';
 import { Database } from './api/database';
 import { Investments } from './api/investments';
 import { Prospects } from './api/prospects';
 import { Chatbot } from './api/chatbot';
-import path from 'path';
 
 //
 // Create the express app
@@ -17,6 +18,7 @@ const chatbot = new Chatbot(db);
 //
 // Use middleware
 //
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -24,10 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 //
 // Setup routes
 //
-app.get('/', (req: express.Request, res: express.Response) => {
-  const name = process.env.NAME || 'World';
-  res.send(`Hello ${name}!`);
-});
 
 /** Find investments by search terms, 
  *  i.e. /investments/search?terms=technology,high%20risk  */
