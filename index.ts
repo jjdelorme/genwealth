@@ -21,7 +21,7 @@ const chatbot = new Chatbot(db);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'ui/dist/genwealth-advisor-ui/browser/')))
 
 //
 // Setup routes
@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 /** Find investments by search terms, 
  *  i.e. /investments/search?terms=technology,high%20risk  */
-app.get('/investments/search', async (req: express.Request, res: express.Response) => {
+app.get('/api/investments/search', async (req: express.Request, res: express.Response) => {
   const terms: string[] = req.query.terms as string[];
 
   const data = await investments.search(terms);
@@ -38,7 +38,7 @@ app.get('/investments/search', async (req: express.Request, res: express.Respons
 
 /** Find investments with naturual language prompts 
  *  i.e. /investments/semantic_search?prompt=hedge%20against%20%high%20inflation */
-app.get('/investments/semantic_search', async (req: express.Request, res: express.Response) => {
+app.get('/api/investments/semantic_search', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
 
   const data = await investments.semanticSearch(prompt);
@@ -47,7 +47,7 @@ app.get('/investments/semantic_search', async (req: express.Request, res: expres
 
 /** Find prospects with naturual language prompt and optional filters
  *  i.e. /prospects/search?prompt=young%20aggressive%20investor&risk_profile=low&min_age=25&max_age=40 */ 
- app.get('/prospects/search', async (req: express.Request, res: express.Response) => {
+ app.get('/api/prospects/search', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
   const riskProfile: string | undefined = req.query.risk_profile as string;
   const minAge: number | undefined = req.query.min_age as number | undefined;  
@@ -59,7 +59,7 @@ app.get('/investments/semantic_search', async (req: express.Request, res: expres
 
 /** Chat with a financial advisor, 
  * i.e. /chat?prompt=I'm%20interested%20in%20investing%20in%20real%20estate&user_id=90 */
-app.get('/chat', async (req: express.Request, res: express.Response) => {
+app.get('/api/chat', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
   const userId: number | undefined = req.query.user_id as number | undefined;
 
