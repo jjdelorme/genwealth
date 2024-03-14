@@ -1,0 +1,13 @@
+<div>
+    <h3>Ideal Investments?</h3>
+    <mat-form-field>
+      <input matInput [(ngModel)]="investmentSearch" placeholder="Describe what type of investment you are looking for?">
+    </mat-form-field>
+    <div *ngIf="investments">
+        <div *ngFor="let investment of investments | async">
+            {{investment.analysis}}
+        </div>
+    </div>
+    
+    <button mat-raised-button color="primary" (click)="findInvestments()">Find</button>
+</div>

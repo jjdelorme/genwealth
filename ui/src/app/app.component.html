@@ -1,39 +1,7 @@
 <body>
     <img src="/assets/investments.png" height="80" alt="Investments" />
-    <div>
-        <h3>Chat with GenWealth?</h3>
-        <mat-form-field>
-            <input [(ngModel)]="chat" type="text" placeholder="Ask me a question" style="margin-bottom: 20px; width: 500px;"/>
-        </mat-form-field>
-        <div class="response" *ngIf="chatResponse">
-            Response: {{ chatResponse | async }}
-        </div>
-        <button mat-raised-button color="primary" (click)="askQuestion()">Chat</button>
-    </div>
-    <div>
-        <h3>Ideal Investments?</h3>
-        <mat-form-field>
-          <input [(ngModel)]="investmentSearch" matInput placeholder="Describe what type of investment you are looking for?">
-        </mat-form-field>
-        <div *ngIf="investments">
-            <div *ngFor="let investment of investments | async">
-                {{investment.analysis}}
-            </div>
-        </div>
-        
-        <button mat-raised-button color="primary" (click)="findInvestments()">Find</button>
-    </div>
-    <div>
-        <h3>Find Prospects</h3>
-        <mat-form-field>
-            <input [(ngModel)]="prospectSearch" matInput placeholder="Describe your ideal prospect">
-        </mat-form-field>
-        <div *ngIf="prospects">
-            <div *ngFor="let prospect of prospects | async">
-                {{prospect.email}}
-            </div>
-        </div>
-        
-        <button mat-raised-button color="primary" (click)="findProspects()">Find</button>        
-    </div>
+
+    <app-investments></app-investments>
+    <app-prospects></app-prospects>
+    <app-chat></app-chat>    
 </body>

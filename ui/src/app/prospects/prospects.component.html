@@ -1,0 +1,13 @@
+<div>
+    <h3>Find Prospects</h3>
+    <mat-form-field>
+        <input [(ngModel)]="prospectSearch" matInput placeholder="Describe your ideal prospect">
+    </mat-form-field>
+    <div *ngIf="prospects">
+        <div *ngFor="let prospect of prospects | async">
+            {{prospect.email}}
+        </div>
+    </div>
+    
+    <button mat-raised-button color="primary" (click)="findProspects()">Find</button>        
+</div>
