@@ -1,0 +1,11 @@
+<body>
+    <img src="/assets/investments.png" height="80" alt="Investments" />
+    <div>
+        <h3>Welcome to GenWealth</h3>
+        <div><input type="text" placeholder="Ask me a question" style="margin-bottom: 20px; width: 500px;"/>    </div>
+        <div class="response" *ngIf="chatResponse">
+            Chat response: {{ chatResponse | async }}
+        </div>
+        <button mat-raised-button color="primary" (click)="askQuestion()">Click Me</button>
+    </div>
+</body>

@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+// Color definitions
+$cymbal-primary: mat.define-palette(mat.$green-palette, 700); 
+$cymbal-accent:  mat.define-palette(mat.$blue-palette, 500);
+$cymbal-warn:    mat.define-palette(mat.$red-palette);
+
+// Theme creation
+$cymbal-custom-theme: mat.define-light-theme((
+  color: (
+    primary: $cymbal-primary,
+    accent: $cymbal-accent,
+    warn: $cymbal-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,  
+));
+
+// Include core and component styles
+@include mat.core-theme($cymbal-custom-theme);
+@include mat.button-theme($cymbal-custom-theme);
+// ... (add other required component themes)
+
+// Include base styles
+@include mat.core();
