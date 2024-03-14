@@ -3,6 +3,9 @@ import { Database } from './database';
 import { Investments } from './investments';
 import { Prospects } from './prospects';
 import { Chatbot } from './chatbot';
+import path from 'path';
+
+// Create an express app.
 
 const app: express.Application = express();
 const db: Database = new Database();
@@ -13,6 +16,7 @@ const chatbot = new Chatbot(db);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Routes
 
@@ -31,8 +35,8 @@ app.get('/investments/search', async (req: express.Request, res: express.Respons
 });
 
 /** Find investments with naturual language prompts 
- *  i.e. /investments/semanticSearch?prompt=hedge%20against%20%high%20inflation */
-app.get('/investments/semanticSearch', async (req: express.Request, res: express.Response) => {
+ *  i.e. /investments/semantic_search?prompt=hedge%20against%20%high%20inflation */
+app.get('/investments/semantic_search', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
 
   const data = await investments.semanticSearch(prompt);
