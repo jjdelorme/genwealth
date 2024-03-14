@@ -14,11 +14,11 @@ export class Database {
     })
   }
 
-  async query(query) {
+  async query(query: string) {
     const client = await this.pool.connect()
     const res = await client.query(query)
     client.release()
-    return res
+    return res.rows;
   }
 
   async end() {
