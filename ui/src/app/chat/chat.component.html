@@ -1,9 +1,11 @@
-<div>
-    <h3>Chat with GenWealth?</h3>
+<mat-card>
+    <mat-card-title>Chat with GenWealth</mat-card-title>
     <mat-form-field>
         <input matInput [(ngModel)]="chat" type="text" placeholder="Ask me a question">
     </mat-form-field>
     <div class="response" *ngIf="chatResponse" innerHtml="{{ chatResponse | async }}">
     </div>
-    <button mat-raised-button color="primary" (click)="askQuestion()">Chat</button>
-</div>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="askQuestion()">Chat</button>
+    </mat-card-actions>
+</mat-card>

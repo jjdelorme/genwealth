@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenWealthServiceClient } from '../services/genwealth-api';
 import { Observable, map } from 'rxjs';
+
+import { GenWealthServiceClient } from '../services/genwealth-api';
+import { TextToHtmlPipe } from '../services/text-to-html.pipe';
+
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { TextToHtmlPipe } from '../services/text-to-html.pipe';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-chat',
@@ -16,6 +19,7 @@ import { TextToHtmlPipe } from '../services/text-to-html.pipe';
     FormsModule,
     MatInputModule,    
     TextToHtmlPipe,
+    MatCardModule,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'

@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+
 
 @Component({
   selector: 'app-investments',
@@ -15,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     FormsModule,
     MatInputModule,
+    MatCardModule,
   ],
   templateUrl: './investments.component.html',
   styleUrl: './investments.component.scss'

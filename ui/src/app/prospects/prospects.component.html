@@ -1,5 +1,5 @@
-<div>
-    <h3>Find Prospects</h3>
+<mat-card>
+    <mat-card-title>Prospects</mat-card-title>
     <mat-form-field>
         <input [(ngModel)]="prospectSearch" matInput placeholder="Describe your ideal prospect">
     </mat-form-field>
@@ -8,6 +8,7 @@
             {{prospect.email}}
         </div>
     </div>
-    
-    <button mat-raised-button color="primary" (click)="findProspects()">Find</button>        
-</div>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="findProspects()">Find</button>
+    </mat-card-actions>
+</mat-card>
