@@ -22,7 +22,7 @@ export class Chatbot {
             SELECT llm_prompt, llm_response 
             FROM llm(
                 -- User input
-                prompt => 'I have $25250 to invest. What do you suggest?',
+                prompt => '${prompt}',
                 
                 -- Prompt enrichment
                 llm_role => 'You are an experienced financial advisor named Penny',
