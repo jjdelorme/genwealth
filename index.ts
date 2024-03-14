@@ -1,25 +1,29 @@
 import express from 'express';
-import { Database } from './database';
-import { Investments } from './investments';
-import { Prospects } from './prospects';
-import { Chatbot } from './chatbot';
+import { Database } from './api/database';
+import { Investments } from './api/investments';
+import { Prospects } from './api/prospects';
+import { Chatbot } from './api/chatbot';
 import path from 'path';
 
-// Create an express app.
-
+//
+// Create the express app
+//
 const app: express.Application = express();
 const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
 const chatbot = new Chatbot(db);
 
-// Middleware
+//
+// Use middleware
+//
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 
-// Routes
-
+//
+// Setup routes
+//
 app.get('/', (req: express.Request, res: express.Response) => {
   const name = process.env.NAME || 'World';
   res.send(`Hello ${name}!`);
@@ -65,8 +69,9 @@ app.get('/chat', async (req: express.Request, res: express.Response) => {
   res.json(data);
 });
 
-// Start the server.')
-
+//
+// Start the server
+//
 const port: number = parseInt(process.env.PORT ?? '8080');
 
 app.listen(port, () => {
