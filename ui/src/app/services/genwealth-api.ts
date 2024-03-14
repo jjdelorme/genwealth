@@ -4,20 +4,21 @@ import { Observable, map, switchMap, tap } from 'rxjs';
 import { BASE_URL } from '../app.config';
 
 export interface Investment {
-    id?: number;
-    name?: string;
-    description?: string;
-    risk_level?: string;
-    return_rate?: number;
+    ticker?: string;
+    etf?: boolean;
+    rating?: string;
+    analysis?: string;
+    distance?: number;
 }
 
 export interface Prospect {
-    id?: number;
-    name?: string;
+    first_name?: string;
+    last_name?: string;
     email?: string;
-    phone_number?: string;
+    age?: number,
     risk_profile?: string;
-    age?: number;
+    bio?: string,
+    distance?: number;
 }
 
 export interface GenWealthService {
@@ -40,7 +41,7 @@ export class GenWealthServiceClient implements GenWealthService {
     constructor(private http: HttpClient, @Inject(BASE_URL) private baseUrl: string) {}
     
     searchInvestments(terms: string[]): Observable<Investment[]> {
-        return this.http.get<Investment[]>(`${this.baseUrl}/investments`, {
+        return this.http.get<Investment[]>(`${this.baseUrl}/investments/search`, {
             params: { terms: terms }
         });
     }

@@ -38,7 +38,7 @@ app.get('/api/investments/search', async (req: express.Request, res: express.Res
 
 /** Find investments with naturual language prompts 
  *  i.e. /investments/semantic_search?prompt=hedge%20against%20%high%20inflation */
-app.get('/api/investments/semantic_search', async (req: express.Request, res: express.Response) => {
+app.get('/api/investments/semantic-search', async (req: express.Request, res: express.Response) => {
   const prompt: string = req.query.prompt as string;
 
   const data = await investments.semanticSearch(prompt);
