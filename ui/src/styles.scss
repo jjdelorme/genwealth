@@ -16,7 +16,13 @@ $cymbal-theme: mat.define-light-theme((
     accent: $cymbal-accent,
     warn: $cymbal-warn,
   ),
-  typography: mat.define-typography-config(),
+  typography: mat.define-typography-config(
+    $subtitle-1: mat.define-typography-level($font-family: "DM Sans",
+    $font-weight: 400,
+    $font-size: 1rem,
+    $line-height: 1,
+    $letter-spacing: normal,)
+  ),
   desity: 0,
 ));
 
