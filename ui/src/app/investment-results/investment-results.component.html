@@ -3,12 +3,9 @@
     <div class="investment-container">
         <mat-card *ngFor="let investment of data" class="investment-card">
             <mat-card-title>{{investment.ticker}}</mat-card-title>
-            <mat-card-subtitle>
+            <mat-card-subtitle *ngIf="investment.rating">
                 <div>
-                    <span *ngIf="(investment.distance ?? 0) > 0">
-                        {{ (investment.distance! * 100).toFixed(1) }}% match, 
-                    </span>
-                    <span>{{investment.rating}}</span>
+                    Rating: <span class="rating">{{investment.rating}}</span>
                 </div>
             </mat-card-subtitle>
             <div innerHtml="{{investment.analysis | textToHtml}}"></div>
