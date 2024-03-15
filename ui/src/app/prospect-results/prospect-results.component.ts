@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 
 import { Prospect, QueryResponse } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
+import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
 
 @Component({
   selector: 'app-prospect-results',
@@ -16,6 +17,7 @@ import { TextToHtmlPipe } from '../services/text-to-html.pipe';
     CommonModule,
     MatTableModule, 
     MatButtonModule, 
+    SqlStatementComponent,
     MatIconModule,
     TextToHtmlPipe,
   ],
