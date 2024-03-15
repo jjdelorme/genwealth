@@ -14,7 +14,7 @@ export class Chatbot {
         console.log(query);
         
         const rows = await this.db.query(query);
-        return rows[0];
+        return rows;
     }
 
     private getQuery(prompt: string) {

@@ -12,13 +12,18 @@ export interface Investment {
 }
 
 export interface Prospect {
-    first_name?: string;
-    last_name?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
     age?: number,
     risk_profile?: string;
     bio?: string,
     distance?: number;
+}
+
+export interface ChatResponse {
+    llmPrompt?: string;
+    llmResponse?: string;
 }
 
 export interface GenWealthService {
@@ -29,10 +34,8 @@ export interface GenWealthService {
         riskProfile?: string,
         minAge?: number,
         maxAge?: number): Observable<Prospect[]>;
-    chat(prompt: string, userId?: number): Observable<string>; //llm_response
+    chat(prompt: string, userId?: number): Observable<ChatResponse>; 
 }
-
-
 
 @Injectable({
     providedIn: 'root'
@@ -68,16 +71,17 @@ export class GenWealthServiceClient implements GenWealthService {
         return this.http.get<Prospect[]>(`${this.baseUrl}/prospects/search`, {params: params});
     }
 
-    chat(prompt: string, userId?: number | undefined): Observable<string> {
+    chat(prompt: string, userId?: number | undefined): Observable<ChatResponse> {
         let params: HttpParams = new HttpParams().set('prompt', prompt);
         
         if (userId) {
             params = params.set('user_id', userId);
         }
         
-        return this.http.get<any>(`${this.baseUrl}/chat`, { params: params }).pipe(
-            map(response => (response.llm_response ?? '') as string),
-            tap(r => console.log('response', r))
-        );
+        return this.http.get<ChatResponse>(`${this.baseUrl}/chat`, { params: params })
+        .pipe(tap(response => 
+            console.log('Chat response:', response)
+            ));
+        
     }
 }

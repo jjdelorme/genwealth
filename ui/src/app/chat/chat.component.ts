@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 import { GenWealthServiceClient } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
@@ -34,6 +34,8 @@ export class ChatComponent {
     const textToHtmlPipe = new TextToHtmlPipe();
 
     this.chatResponse = this.genWealthClient.chat(this.chat)
-      .pipe(map(textToHtmlPipe.transform));
+      .pipe(
+        tap(console.log),
+        map(response => textToHtmlPipe.transform(response.llmResponse)));
   }
 }
