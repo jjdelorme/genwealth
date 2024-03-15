@@ -1,6 +1,5 @@
 <mat-card>
     <mat-card-title>Ideal Investments</mat-card-title>
-    <app-investment-results [investments]="investments"></app-investment-results>
     <mat-form-field>
         <input matInput [(ngModel)]="investmentSearch" placeholder="Describe what type of investment you are looking for?">
     </mat-form-field>
@@ -11,4 +10,5 @@
     <mat-card-actions>
         <button mat-raised-button color="primary" [disabled]="investmentSearch.length === 0" (click)="findInvestments()">Find</button>
     </mat-card-actions>
+    <app-investment-results [investments]="investments"></app-investment-results>    
 </mat-card>
