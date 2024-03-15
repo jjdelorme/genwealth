@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 
+import { ProspectResultsComponent } from '../prospect-results/prospect-results.component';
+
 @Component({
   selector: 'app-prospects',
   standalone: true,
@@ -19,6 +21,7 @@ import { MatSliderModule } from '@angular/material/slider';
     MatInputModule,
     MatCardModule,
     MatSliderModule,
+    ProspectResultsComponent,
   ],
   templateUrl: './prospects.component.html',
   styleUrl: './prospects.component.scss'

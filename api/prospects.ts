@@ -5,7 +5,7 @@ export class Prospects {
     constructor(private db: Database) { }
 
     async semanticSearch(prompt: string, riskProfile?: string, minAge?: number, maxAge?: number) {
-        let query = `SELECT first_name, last_name, email, age, risk_profile, bio,
+        let query = `SELECT id, first_name, last_name, email, age, risk_profile, bio,
             bio_embedding <=> embedding('textembedding-gecko@003', '${prompt}') AS distance
             FROM user_profiles`;
 

@@ -1,11 +1,11 @@
 <div *ngIf="investments">
-    <mat-expansion-panel hideToggle>
+    <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
                 We've found a few investments that match your criteria
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <div style="padding-bottom: 4px;">SQL query run:</div>
+        <div style="padding-bottom: 4px;">SQL query:</div>
         <div class="sql">{{(investments | async)?.query}}</div>
     </mat-expansion-panel>
     <div class="investment-container">

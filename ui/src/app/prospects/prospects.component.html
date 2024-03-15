@@ -1,5 +1,10 @@
 <mat-card>
     <mat-card-title>Prospects</mat-card-title>
+
+    <div *ngIf="prospects">
+        <app-prospect-results [prospects]="prospects"></app-prospect-results>
+    </div>
+
     <mat-form-field>
         <input [(ngModel)]="prospectSearch" matInput placeholder="Describe your ideal prospect">
     </mat-form-field>
@@ -12,11 +17,7 @@
         <input value="{{minAge}}" matSliderStartThumb>
         <input value="{{maxAge}}" matSliderEndThumb>
     </mat-slider>    
-    <div *ngIf="prospects">
-        <div *ngFor="let prospect of prospects | async">
-            {{prospect.email}}
-        </div>
-    </div>
+
     <mat-card-actions>
         <button mat-raised-button color="primary" [disabled]="prospectSearch.length === 0" (click)="findProspects()">Find</button>
     </mat-card-actions>
