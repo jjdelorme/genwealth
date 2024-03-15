@@ -1,17 +1,17 @@
 <mat-drawer-container class="example-container" autosize>
     <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
-      <p>Auto-resizing sidenav</p>
+      <app-chat-configuration [chatRequest]="chatRequest"></app-chat-configuration>
     </mat-drawer>
     <mat-card>
         <mat-card-title>Chat with GenWealth</mat-card-title>
         <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
         <mat-form-field>
-            <input matInput [(ngModel)]="chat" type="text" [placeholder]="chatPlaceholder">
+            <input matInput [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
         </mat-form-field>
         <mat-card-actions>
-            <button mat-raised-button color="primary" [disabled]="chat.length === 0" 
+            <button mat-raised-button color="primary" [disabled]="chatRequest.prompt.length === 0" 
                 (click)="askQuestion()">Chat</button>
-            <button mat-raised-button color="secondary" [disabled]="chat.length === 0" 
+            <button mat-raised-button color="secondary" [disabled]="chatRequest.prompt.length === 0" 
                 (click)="drawer.toggle()">Configure</button>
         </mat-card-actions>
     </mat-card>

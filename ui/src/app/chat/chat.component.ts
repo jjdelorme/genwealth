@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map, tap } from 'rxjs';
 
 import { ChatRequest, GenWealthServiceClient } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
@@ -10,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ChatConfigurationComponent } from '../chat-configuration/chat-configuration.component';
 
 @Component({
   selector: 'app-chat',
@@ -22,6 +22,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatSidenavModule,
     MatCardModule,
     TextToHtmlPipe,
+    ChatConfigurationComponent,
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -31,20 +32,19 @@ export class ChatComponent {
   
   showConfiguration: boolean = false;
   chatPlaceholder = "Ask me a question";
-  chat: string = '';
+  chatRequest: ChatRequest = new ChatRequest("");
   chatResponse?: string = undefined;
   query?: string = undefined;
 
   private textToHtmlPipe = new TextToHtmlPipe();
 
   askQuestion() { 
-    const request = new ChatRequest(this.chat);
-    this.genWealthClient.chat(request)
+    this.genWealthClient.chat(this.chatRequest)
       .subscribe({ next: response => {
         this.chatResponse = this.textToHtmlPipe.transform(response.llmResponse);
         this.query = response.query;
         // reset
-        this.chat = '';        
+        this.chatRequest.prompt = '';
       }});
   }
 
