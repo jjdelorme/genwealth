@@ -1,7 +1,15 @@
-<body>
-    <img src="/assets/investments.png" height="80" alt="Investments" />
-
-    <app-investments></app-investments>
-    <app-prospects></app-prospects>
-    <app-chat></app-chat>    
-</body>
+<div>
+    <mat-toolbar>
+        <div>
+            <img src="/assets/investments.png" alt="Investments" class="toolbar-logo" />
+            <br/><span class="app-title">GenWealth</span>
+        </div>
+        <span class="toolbar-spacer"></span>
+        <button mat-button routerLink="/investments">Investments</button>
+        <button mat-button routerLink="/prospects">Prospects</button>
+        <button mat-button routerLink="/chat">Chat</button>
+    </mat-toolbar>
+    <body>
+        <router-outlet></router-outlet>
+    </body>
+</div>

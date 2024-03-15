@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 
 import { InvestmentsComponent } from './investments/investments.component';
 import { ProspectsComponent } from './prospects/prospects.component';
@@ -16,9 +18,10 @@ import { ChatComponent } from './chat/chat.component';
   imports: [
     CommonModule, 
     RouterOutlet, 
+    RouterModule,
     MatButtonModule,
-    FormsModule,
-    MatInputModule,
+    MatToolbarModule,
+    MatIconModule,
     InvestmentsComponent,
     ProspectsComponent,
     ChatComponent,
