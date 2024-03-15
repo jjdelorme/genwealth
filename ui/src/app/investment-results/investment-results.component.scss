@@ -5,10 +5,20 @@
     grid-gap: 10px;
     place-items: top;    
 }
+
 .investment-card {
     background-color: #205010;
     color: #fff;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     padding: 25px;
+}
+
+.sql {
+    font-family: 'Courier New', Courier, monospace; 
+    color: #666666; 
+    background-color: lightgrey; 
+    padding: 8px; 
+    border-radius: 4px;
+    margin-top: 5px;
 }

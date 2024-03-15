@@ -5,7 +5,8 @@
                 We've found a few investments that match your criteria
             </mat-panel-title>
         </mat-expansion-panel-header>
-        {{(investments | async)?.query}}
+        <div style="padding-bottom: 4px;">SQL query run:</div>
+        <div class="sql">{{(investments | async)?.query}}</div>
     </mat-expansion-panel>
     <div class="investment-container">
         <mat-card *ngFor="let investment of (investments | async)?.data" class="investment-card">
