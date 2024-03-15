@@ -1,4 +1,14 @@
 import { Pool } from 'pg'
+import * as _ from 'lodash';
+
+/**
+ * Converts SQL field names from snake_case to camelCase.
+ * 
+ * @param rows Rows from a database query
+ * @returns 
+ */
+export const camelCaseRows = (rows: any[]) => _.map(rows, (row) => 
+  _.mapKeys(row, (value, key) => _.camelCase(key)));
 
 export class Database {
   private pool: Pool;

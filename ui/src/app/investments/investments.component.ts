@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenWealthServiceClient, Investment, InvestmentResponse } from '../services/genwealth-api';
+import { GenWealthServiceClient, Investment, QueryResponse } from '../services/genwealth-api';
 import { Observable } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +39,7 @@ export class InvestmentsComponent {
   investmentSearch: string = '';
   searchType: string = SearchType.KEYWORD;
 
-  investments?: Observable<InvestmentResponse> = undefined;
+  investments?: Observable<QueryResponse<Investment>> = undefined;
   
   findInvestments() {
     switch (this.searchType) {

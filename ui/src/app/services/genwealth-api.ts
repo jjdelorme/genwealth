@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { BASE_URL } from '../app.config';
 
-export interface InvestmentResponse {
+export interface QueryResponse<T> {
     query?: string;
-    data?: Investment[];
+    data?: T[];
 }
 
 export interface Investment {
@@ -32,13 +32,13 @@ export interface ChatResponse {
 }
 
 export interface GenWealthService {
-    searchInvestments(terms: string[]): Observable<InvestmentResponse>;
-    semanticSearchInvestments(prompt: string): Observable<InvestmentResponse>;
+    searchInvestments(terms: string[]): Observable<QueryResponse<Investment>>;
+    semanticSearchInvestments(prompt: string): Observable<QueryResponse<Investment>>;
     semanticSearchProspects(
         prompt: string,
         riskProfile?: string,
         minAge?: number,
-        maxAge?: number): Observable<Prospect[]>;
+        maxAge?: number): Observable<QueryResponse<Prospect>>;
     chat(prompt: string, userId?: number): Observable<ChatResponse>; 
 }
 
@@ -48,24 +48,25 @@ export interface GenWealthService {
 export class GenWealthServiceClient implements GenWealthService {
     constructor(private http: HttpClient, @Inject(BASE_URL) private baseUrl: string) {}
     
-    searchInvestments(terms: string[]): Observable<InvestmentResponse> {
+    searchInvestments(terms: string[]): Observable<QueryResponse<Investment>> {
         if (terms.length === 1) {
             // Caveat - if only a single term is passed, the single term will be split into each char
             // prevent this by adding empty.
             terms = [terms[0], ''];
         }
-        return this.http.get<InvestmentResponse>(`${this.baseUrl}/investments/search`, {
+        return this.http.get<QueryResponse<Investment>>(`${this.baseUrl}/investments/search`, {
             params: { terms: terms }
         });
     }
 
-    semanticSearchInvestments(prompt: string): Observable<InvestmentResponse> {
-        return this.http.get<InvestmentResponse>(`${this.baseUrl}/investments/semantic-search`, {
+    semanticSearchInvestments(prompt: string): Observable<QueryResponse<Investment>> {
+        return this.http.get<QueryResponse<Investment>>(`${this.baseUrl}/investments/semantic-search`, {
             params: { prompt: prompt }
         });
     }
 
-    semanticSearchProspects(prompt: string, riskProfile?: string | undefined, minAge?: number | undefined, maxAge?: number | undefined): Observable<Prospect[]> {
+    semanticSearchProspects(prompt: string, riskProfile?: string | undefined, minAge?: number | undefined, maxAge?: number | undefined): 
+            Observable<QueryResponse<Prospect>> {
         let params: HttpParams = new HttpParams().set('prompt', prompt);
         
         if (riskProfile) {
@@ -78,7 +79,7 @@ export class GenWealthServiceClient implements GenWealthService {
             params = params.set('max_age', maxAge);
         }
 
-        return this.http.get<Prospect[]>(`${this.baseUrl}/prospects/search`, {params: params});
+        return this.http.get<QueryResponse<Prospect>>(`${this.baseUrl}/prospects/search`, {params: params});
     }
 
     chat(prompt: string, userId?: number | undefined): Observable<ChatResponse> {

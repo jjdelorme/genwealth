@@ -5,7 +5,6 @@ import { Database } from './api/database';
 import { Investments } from './api/investments';
 import { Prospects } from './api/prospects';
 import { Chatbot } from './api/chatbot';
-import * as _ from 'lodash';
 
 //
 // Create the express app
@@ -25,11 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'ui/dist/genwealth-advisor-ui/browser/')))
 
 //
-// Helper to format json response
-//
-const camelCaseRows = (rows: any[]) => _.map(rows, (row) => _.mapKeys(row, (value, key) => _.camelCase(key)));
-
-//
 // Setup routes
 //
 
@@ -41,8 +35,6 @@ app.get('/api/investments/search', async (req: express.Request, res: express.Res
     const terms: string[] = req.query.terms as string[];
 
     const response = await investments.search(terms);
-    response.data = camelCaseRows(response.data);
-
     res.json(response);
   }
   catch (err)
@@ -60,8 +52,6 @@ app.get('/api/investments/semantic-search', async (req: express.Request, res: ex
     const prompt: string = req.query.prompt as string;
 
     const response = await investments.semanticSearch(prompt);
-    response.data = camelCaseRows(response.data);
-
     res.json(response);
   }
     catch (err)
@@ -81,8 +71,8 @@ app.get('/api/investments/semantic-search', async (req: express.Request, res: ex
     const minAge: number | undefined = req.query.min_age as number | undefined;  
     const maxAge: number | undefined = req.query.max_age as number | undefined;
 
-    const data = await prospects.semanticSearch(prompt, riskProfile, minAge, maxAge);
-    res.json(camelCaseRows(data));
+    const response = await prospects.semanticSearch(prompt, riskProfile, minAge, maxAge);
+    res.json(response);
   }
   catch (err)
   {
@@ -100,7 +90,7 @@ app.get('/api/chat', async (req: express.Request, res: express.Response) => {
     const userId: number | undefined = req.query.user_id as number | undefined;
 
     const data = await chatbot.chat(prompt, userId);
-    res.json(camelCaseRows(data)[0]);
+    res.json(data[0]);
   }
   catch (err)
   {

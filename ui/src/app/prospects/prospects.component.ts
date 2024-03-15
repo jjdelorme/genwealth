@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GenWealthServiceClient, Prospect } from '../services/genwealth-api';
+import { GenWealthServiceClient, Prospect, QueryResponse } from '../services/genwealth-api';
 import { Observable } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -34,7 +34,7 @@ export class ProspectsComponent {
   maxAge: number = 65;
   riskProfile: number = 1;
 
-  prospects?: Observable<Prospect[]> = undefined;
+  prospects?: Observable<QueryResponse<Prospect>> = undefined;
 
   findProspects() {
     this.prospects = 

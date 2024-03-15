@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { InvestmentResponse } from '../services/genwealth-api';
+import { QueryResponse, Investment } from '../services/genwealth-api';
 import { Observable } from 'rxjs';
 
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -22,5 +22,5 @@ import { CommonModule } from '@angular/common';
 })
 export class InvestmentResultsComponent {
   @Input()
-  investments : Observable<InvestmentResponse> | undefined;
+  investments : Observable<QueryResponse<Investment>> | undefined;
 }

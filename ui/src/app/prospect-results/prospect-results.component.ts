@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Observable } from 'rxjs';
 
-import { Prospect } from '../services/genwealth-api';
+import { Prospect, QueryResponse } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
 
 @Component({
@@ -31,8 +31,12 @@ import { TextToHtmlPipe } from '../services/text-to-html.pipe';
 })
 export class ProspectResultsComponent {
   @Input()
-  set prospects(value: Observable<Prospect[]>) {
-    value.subscribe({ next: data => this.dataSource.data = data });
+  set prospects(observable: Observable<QueryResponse<Prospect>>) {
+    observable.subscribe({ next: response => {
+      if (response.data)
+        this.dataSource.data = response.data; 
+      this.query = response.query;
+    }});
   }
 
   columnsToDisplay: string[] = ['id', 'firstName','lastName','email','age','riskProfile'];

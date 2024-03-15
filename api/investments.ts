@@ -1,5 +1,4 @@
-
-import { Database } from './database';
+import { Database, camelCaseRows } from './database';
 
 export class Investments {
     constructor(private db: Database) { }
@@ -20,7 +19,7 @@ export class Investments {
         query += `LIMIT 5;`
 
         const rows = await this.db.query(query);
-        return { data: rows, query: query };
+        return { data: camelCaseRows(rows), query: query };
     }
 
     async semanticSearch(prompt: string) {
@@ -31,6 +30,6 @@ export class Investments {
             LIMIT 5;`;
 
         const rows = await this.db.query(query);
-        return { data: rows, query: query };
+        return { data: camelCaseRows(rows), query: query };
     }
 }
