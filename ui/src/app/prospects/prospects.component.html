@@ -10,15 +10,15 @@
             <div>
                 <mat-slider min="1" max="3" step="1" thumbLabel 
                         showTickMarks discrete [displayWith]="formatRiskLabel">
-                    <input value="{{riskProfile}}" matSliderThumb>
+                    <input [(ngModel)]="riskProfile" matSliderThumb>
                 </mat-slider>
                 <div>Risk Profile</div>
             </div>
             <div>
                 <mat-slider min="14" max="99" step="1" thumbLabel
                         showTickMarks discrete >
-                    <input value="{{minAge}}" matSliderStartThumb>
-                    <input value="{{maxAge}}" matSliderEndThumb>
+                    <input [(ngModel)]="minAge" matSliderStartThumb>
+                    <input [(ngModel)]="maxAge" matSliderEndThumb>
                 </mat-slider>
                 <div>Age Range</div>
             </div>

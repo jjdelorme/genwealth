@@ -32,7 +32,7 @@ export class ProspectsComponent {
   constructor(private genWealthClient: GenWealthServiceClient) {}
 
   prospectSearch: string = '';
-  useFilters: boolean = true;
+  useFilters: boolean = false;
   minAge: number = 21;
   maxAge: number = 65;
   riskProfile: number = 1;
@@ -46,22 +46,30 @@ export class ProspectsComponent {
   formatRiskLabel(value: number): string {
     switch (value) {
       case 1:
-        return 'Low';
-        break;
+        return 'low';
       case 2:
-        return 'Medium';
-        break;
+        return 'medium';
       case 3:
-        return 'High';
-        break;
+        return 'high';
       default:
         return '';
-        break;
     }
   }
 
   findProspects() {
+    let riskFilter: string | undefined = this.useFilters ? 
+      this.formatRiskLabel(this.riskProfile) : undefined;
+    
+    let minAgeFilter: number | undefined = this.useFilters ?
+      this.minAge : undefined;
+
+    let maxAgeFilter: number | undefined = this.useFilters ?
+      this.maxAge : undefined;      
+
+    console.log('finding...', this.prospectSearch, riskFilter, minAgeFilter, maxAgeFilter);
+
     this.prospects = 
-      this.genWealthClient.semanticSearchProspects(this.prospectSearch);
+      this.genWealthClient.semanticSearchProspects(this.prospectSearch,
+        riskFilter, minAgeFilter, maxAgeFilter);
   }
 }
