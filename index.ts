@@ -90,7 +90,7 @@ app.get('/api/chat', async (req: express.Request, res: express.Response) => {
     const userId: number | undefined = req.query.user_id as number | undefined;
 
     const data = await chatbot.chat(prompt, userId);
-    res.json(data[0]);
+    res.json(data);
   }
   catch (err)
   {

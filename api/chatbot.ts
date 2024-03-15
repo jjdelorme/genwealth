@@ -11,10 +11,9 @@ export class Chatbot {
             query = this.getPersonalizedQuery(prompt, userId) :
             query = this.getQuery(prompt);
         
-        console.log(query);
-        
         const rows = await this.db.query(query);
-        return rows;
+        // Chat should return only a single row
+        return { llmResponse: rows[0]['llm_response'], llmPrompt: rows[0]['llm_prompt'], query: query };
     }
 
     private getQuery(prompt: string) {

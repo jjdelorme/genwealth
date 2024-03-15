@@ -29,6 +29,7 @@ export interface Prospect {
 export interface ChatResponse {
     llmPrompt?: string;
     llmResponse?: string;
+    query?: string;
 }
 
 export interface GenWealthService {
@@ -89,10 +90,6 @@ export class GenWealthServiceClient implements GenWealthService {
             params = params.set('user_id', userId);
         }
         
-        return this.http.get<ChatResponse>(`${this.baseUrl}/chat`, { params: params })
-        .pipe(tap(response => 
-            console.log('Chat response:', response)
-            ));
-        
+        return this.http.get<ChatResponse>(`${this.baseUrl}/chat`, { params: params });
     }
 }
