@@ -6,6 +6,6 @@
     <div class="response" *ngIf="chatResponse" innerHtml="{{ chatResponse | async }}">
     </div>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="askQuestion()">Chat</button>
+        <button mat-raised-button color="primary" [disabled]="chat.length === 0" (click)="askQuestion()">Chat</button>
     </mat-card-actions>
 </mat-card>

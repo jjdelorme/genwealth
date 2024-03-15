@@ -9,8 +9,8 @@ export class Database {
     // the pool will emit an error on behalf of any idle clients
     // it contains if a backend error or network partition happens
     this.pool.on('error', (err, client) => {
-      console.error('Unexpected error on idle client', err)
-      process.exit(-1)
+      console.error('Unexpected error on idle client', err);
+      throw err;
     })
   }
 

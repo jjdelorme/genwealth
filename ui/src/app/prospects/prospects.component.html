@@ -9,6 +9,6 @@
         </div>
     </div>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="findProspects()">Find</button>
+        <button mat-raised-button color="primary" [disabled]="prospectSearch.length === 0" (click)="findProspects()">Find</button>
     </mat-card-actions>
 </mat-card>
