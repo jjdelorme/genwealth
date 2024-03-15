@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 
+import { TextToHtmlPipe } from '../services/text-to-html.pipe';
 
 @Component({
   selector: 'app-investments',
@@ -18,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
     FormsModule,
     MatInputModule,
     MatCardModule,
+    TextToHtmlPipe,
   ],
   templateUrl: './investments.component.html',
   styleUrl: './investments.component.scss'
@@ -30,6 +32,6 @@ export class InvestmentsComponent {
   
   findInvestments() {
     this.investments = 
-      this.genWealthClient.semanticSearchInvestments(this.investmentSearch);
+      this.genWealthClient.semanticSearchInvestments(this.investmentSearch)
   }
 }

@@ -26,4 +26,12 @@ $cymbal-theme: mat.define-light-theme((
   desity: 0,
 ));
 
+mat-card {
+  padding: 15px;
+}
+
+mat-card-title {
+  padding-bottom: 8px;
+}
+
 @include mat.all-component-themes($cymbal-theme);

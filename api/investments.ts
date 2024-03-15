@@ -25,7 +25,7 @@ export class Investments {
         const query = `SELECT ticker, etf, rating, analysis, 
             analysis_embedding <=> embedding('textembedding-gecko@003', '${prompt}') AS distance
             FROM investments
-            ORDER BY distance
+            ORDER BY distance DESC
             LIMIT 5;`;
 
         const rows = await this.db.query(query);
