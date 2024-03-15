@@ -3,6 +3,15 @@
     <mat-form-field>
         <input [(ngModel)]="prospectSearch" matInput placeholder="Describe your ideal prospect">
     </mat-form-field>
+    <span>Risk Profile</span>
+    <mat-slider min="1" max="3" step="1" thumbLabel>
+        <input value="{{riskProfile}}" matSliderThumb>
+    </mat-slider>
+    <span>Age Range</span>
+    <mat-slider min="14" max="99" step="1" thumbLabel>
+        <input value="{{minAge}}" matSliderStartThumb>
+        <input value="{{maxAge}}" matSliderEndThumb>
+    </mat-slider>    
     <div *ngIf="prospects">
         <div *ngFor="let prospect of prospects | async">
             {{prospect.email}}

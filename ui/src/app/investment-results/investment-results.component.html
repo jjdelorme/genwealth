@@ -1,0 +1,24 @@
+<div *ngIf="investments">
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                We've found a few investments that match your criteria
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        {{(investments | async)?.query}}
+    </mat-expansion-panel>
+    <div class="investment-container">
+        <mat-card *ngFor="let investment of (investments | async)?.data" class="investment-card">
+            <mat-card-title>{{investment.ticker}}</mat-card-title>
+            <mat-card-subtitle>
+                <div>
+                    <span *ngIf="(investment.distance ?? 0) > 0">
+                        {{ (investment.distance! * 100).toFixed(1) }}% match, 
+                    </span>
+                    <span>{{investment.rating}}</span>
+                </div>
+            </mat-card-subtitle>
+            <div innerHtml="{{investment.analysis | textToHtml}}"></div>
+        </mat-card>
+    </div>
+</div>

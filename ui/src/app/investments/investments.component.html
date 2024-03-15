@@ -1,18 +1,13 @@
 <mat-card>
     <mat-card-title>Ideal Investments</mat-card-title>
-    <div *ngIf="investments">We've found a few investments that match your criteria:</div>
-    <div *ngIf="investments" class="investment-container">
-        <mat-card *ngFor="let investment of investments | async" class="investment-card">
-            <mat-card-title>{{investment.ticker}}</mat-card-title>
-            <mat-card-subtitle>
-                <div>{{((investment.distance ?? 0) * 100).toFixed(1)}}% match, {{investment.rating}}</div>
-            </mat-card-subtitle>                
-            <div innerHtml="{{investment.analysis | textToHtml}}"></div>
-        </mat-card>
-    </div>
+    <app-investment-results [investments]="investments"></app-investment-results>
     <mat-form-field>
         <input matInput [(ngModel)]="investmentSearch" placeholder="Describe what type of investment you are looking for?">
     </mat-form-field>
+    <mat-radio-group [(ngModel)]="searchType">
+        <mat-radio-button value="{{searchTypes.KEYWORD}}">Keyword Search</mat-radio-button>
+        <mat-radio-button value="{{searchTypes.SEMANTIC}}">Semantic Search</mat-radio-button>
+      </mat-radio-group>
     <mat-card-actions>
         <button mat-raised-button color="primary" [disabled]="investmentSearch.length === 0" (click)="findInvestments()">Find</button>
     </mat-card-actions>

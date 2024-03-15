@@ -3,6 +3,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, map, switchMap, tap } from 'rxjs';
 import { BASE_URL } from '../app.config';
 
+export interface InvestmentResponse {
+    query?: string;
+    data?: Investment[];
+}
+
 export interface Investment {
     ticker?: string;
     etf?: boolean;
@@ -27,8 +32,8 @@ export interface ChatResponse {
 }
 
 export interface GenWealthService {
-    searchInvestments(terms: string[]): Observable<Investment[]>;
-    semanticSearchInvestments(prompt: string): Observable<Investment[]>;
+    searchInvestments(terms: string[]): Observable<InvestmentResponse>;
+    semanticSearchInvestments(prompt: string): Observable<InvestmentResponse>;
     semanticSearchProspects(
         prompt: string,
         riskProfile?: string,
@@ -43,14 +48,19 @@ export interface GenWealthService {
 export class GenWealthServiceClient implements GenWealthService {
     constructor(private http: HttpClient, @Inject(BASE_URL) private baseUrl: string) {}
     
-    searchInvestments(terms: string[]): Observable<Investment[]> {
-        return this.http.get<Investment[]>(`${this.baseUrl}/investments/search`, {
+    searchInvestments(terms: string[]): Observable<InvestmentResponse> {
+        if (terms.length === 1) {
+            // Caveat - if only a single term is passed, the single term will be split into each char
+            // prevent this by adding empty.
+            terms = [terms[0], ''];
+        }
+        return this.http.get<InvestmentResponse>(`${this.baseUrl}/investments/search`, {
             params: { terms: terms }
         });
     }
 
-    semanticSearchInvestments(prompt: string): Observable<Investment[]> {
-        return this.http.get<Investment[]>(`${this.baseUrl}/investments/semantic-search`, {
+    semanticSearchInvestments(prompt: string): Observable<InvestmentResponse> {
+        return this.http.get<InvestmentResponse>(`${this.baseUrl}/investments/semantic-search`, {
             params: { prompt: prompt }
         });
     }

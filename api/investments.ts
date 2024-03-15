@@ -11,14 +11,16 @@ export class Investments {
             WHERE analysis LIKE '%${searchTerms[0] ?? ''}%'`;
         
         for (let i = 1; i < searchTerms.length; i++) {
-            query += `
-                AND analysis LIKE '%${searchTerms[i]}%'`;
+            if (searchTerms[i].trim() !== '') {
+                query += `
+                    AND analysis LIKE '%${searchTerms[i].trim()}%'`;
+            }
         }
         
         query += `LIMIT 5;`
 
         const rows = await this.db.query(query);
-        return rows;
+        return { data: rows, query: query };
     }
 
     async semanticSearch(prompt: string) {
@@ -29,6 +31,6 @@ export class Investments {
             LIMIT 5;`;
 
         const rows = await this.db.query(query);
-        return rows;
+        return { data: rows, query: query };
     }
 }

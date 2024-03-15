@@ -40,8 +40,10 @@ app.get('/api/investments/search', async (req: express.Request, res: express.Res
   {
     const terms: string[] = req.query.terms as string[];
 
-    const data = await investments.search(terms);
-    res.json(camelCaseRows(data));
+    const response = await investments.search(terms);
+    response.data = camelCaseRows(response.data);
+
+    res.json(response);
   }
   catch (err)
   {
@@ -57,8 +59,10 @@ app.get('/api/investments/semantic-search', async (req: express.Request, res: ex
   {
     const prompt: string = req.query.prompt as string;
 
-    const data = await investments.semanticSearch(prompt);
-    res.json(camelCaseRows(data));
+    const response = await investments.semanticSearch(prompt);
+    response.data = camelCaseRows(response.data);
+
+    res.json(response);
   }
     catch (err)
     {
