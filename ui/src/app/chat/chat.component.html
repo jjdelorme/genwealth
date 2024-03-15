@@ -1,11 +1,11 @@
 <mat-card>
     <mat-card-title>Chat with GenWealth</mat-card-title>
+    <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
     <mat-form-field>
-        <input matInput [(ngModel)]="chat" type="text" placeholder="Ask me a question">
+        <input matInput [(ngModel)]="chat" type="text" [placeholder]="chatPlaceholder">
     </mat-form-field>
-    <div class="response" *ngIf="chatResponse" innerHtml="{{ chatResponse | async }}">
-    </div>
     <mat-card-actions>
-        <button mat-raised-button color="primary" [disabled]="chat.length === 0" (click)="askQuestion()">Chat</button>
+        <button mat-raised-button color="primary" [disabled]="chat.length === 0" 
+            (click)="askQuestion()">Chat</button>
     </mat-card-actions>
 </mat-card>

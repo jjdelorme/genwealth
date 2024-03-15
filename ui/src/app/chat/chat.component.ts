@@ -26,16 +26,21 @@ import { MatCardModule } from '@angular/material/card';
 })
 export class ChatComponent {
   constructor(private genWealthClient: GenWealthServiceClient) {}
-
+  
+  chatPlaceholder = "Ask me a question";
   chat: string = '';
-  chatResponse?: Observable<string> = undefined;
+  chatResponse?: string = undefined;
+  query?: string = undefined;
+
+  private textToHtmlPipe = new TextToHtmlPipe();
 
   askQuestion() { 
-    const textToHtmlPipe = new TextToHtmlPipe();
-
-    this.chatResponse = this.genWealthClient.chat(this.chat)
-      .pipe(
-        tap(console.log),
-        map(response => textToHtmlPipe.transform(response.llmResponse)));
+    this.genWealthClient.chat(this.chat)
+      .subscribe({ next: response => {
+        this.chatResponse = this.textToHtmlPipe.transform(response.llmResponse);
+        this.query = response.query;
+      }});
+    // reset
+    this.chat = '';
   }
 }
