@@ -32,6 +32,19 @@ export interface ChatResponse {
     query?: string;
 }
 
+export class ChatRequest {
+    constructor(public prompt: string) {}
+
+    userId?: number;
+    userRole: string = 'I am a generic user';
+    llmRole: string = ' You are a helpful AI Assistant';
+    mission?: string; 
+    additionalContext?: string;
+    outputInstructions?: string;
+    responseRestrictions: string = 'You have no response restrictions for this prompt.';
+    disclaimer?: string;
+}
+
 export interface GenWealthService {
     searchInvestments(terms: string[]): Observable<QueryResponse<Investment>>;
     semanticSearchInvestments(prompt: string): Observable<QueryResponse<Investment>>;
@@ -40,7 +53,7 @@ export interface GenWealthService {
         riskProfile?: string,
         minAge?: number,
         maxAge?: number): Observable<QueryResponse<Prospect>>;
-    chat(prompt: string, userId?: number): Observable<ChatResponse>; 
+    chat(request: ChatRequest): Observable<ChatResponse>; 
 }
 
 @Injectable({
@@ -83,11 +96,11 @@ export class GenWealthServiceClient implements GenWealthService {
         return this.http.get<QueryResponse<Prospect>>(`${this.baseUrl}/prospects/search`, {params: params});
     }
 
-    chat(prompt: string, userId?: number | undefined): Observable<ChatResponse> {
-        let params: HttpParams = new HttpParams().set('prompt', prompt);
+    chat(request: ChatRequest): Observable<ChatResponse> {
+        let params: HttpParams = new HttpParams().set('prompt', request.prompt);
         
-        if (userId) {
-            params = params.set('user_id', userId);
+        if (request.userId) {
+            params = params.set('user_id', request.userId);
         }
         
         return this.http.get<ChatResponse>(`${this.baseUrl}/chat`, { params: params });
