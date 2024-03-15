@@ -1,5 +1,12 @@
 <div *ngIf="data">
-    <app-sql-statement [query]="query">We've found a few investments that match your criteria</app-sql-statement>
+    <app-sql-statement [query]="query">
+        @if(data.length == 0) {
+            <div class="no-results">No results were found</div>
+        } @else {
+            We've found a few investments that match your criteria:
+        }
+    </app-sql-statement>
+
     <div class="investment-container">
         <mat-card *ngFor="let investment of data" class="investment-card">
             <mat-card-title>{{investment.ticker}}</mat-card-title>

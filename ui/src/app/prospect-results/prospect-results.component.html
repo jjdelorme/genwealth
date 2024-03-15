@@ -1,5 +1,11 @@
 <div>
-    <app-sql-statement [query]="query">We've found some prospects:</app-sql-statement>
+    <app-sql-statement [query]="query">
+        @if(dataSource.data.length == 0) {
+            <div class="no-results">No results were found</div>
+        } @else {
+            We've found some prospects:
+        }
+    </app-sql-statement>
     <table mat-table
         [dataSource]="dataSource" multiTemplateDataRows
         class="mat-elevation-z8">
