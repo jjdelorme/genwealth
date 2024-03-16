@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,5 +30,18 @@ import { ChatComponent } from './chat/chat.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
+  isSmallScreen: boolean = false;
+
+  ngOnInit() {
+  
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe((result) => {
+        this.isSmallScreen = this.breakpointObserver.isMatched(Breakpoints.Handset);
+        console.log('screensize is small:', this.isSmallScreen);
+      });
+  }
 }
