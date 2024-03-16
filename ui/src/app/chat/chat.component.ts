@@ -35,8 +35,8 @@ import { SqlStatementComponent } from '../sql-statement/sql-statement.component'
 export class ChatComponent {
   constructor(private genWealthClient: GenWealthServiceClient) {}
   
-  showConfiguration: boolean = false;
   chatPlaceholder = "Ask me a question";
+
   chatRequest: ChatRequest = new ChatRequest("");
   chatResponse?: string = undefined;
   query?: string = undefined;
@@ -50,9 +50,5 @@ export class ChatComponent {
         this.query = response.query;
         console.log(this.query);
       }});
-  }
-
-  configureChat() {
-    this.showConfiguration = !this.showConfiguration;
   }
 }

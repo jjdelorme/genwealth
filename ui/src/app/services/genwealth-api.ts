@@ -35,6 +35,9 @@ export interface ChatResponse {
 export class ChatRequest {
     constructor(public prompt: string) {}
 
+    // This flag determines if the other enrichments will be used.
+    advanced: boolean = false;
+    
     userId?: number;
     userRole: string = 'I am a generic user';
     llmRole: string = ' You are a helpful AI Assistant';
@@ -97,6 +100,7 @@ export class GenWealthServiceClient implements GenWealthService {
     }
 
     chat(request: ChatRequest): Observable<ChatResponse> {
+        console.log('chat', request);
         return this.http.post<ChatResponse>(`${this.baseUrl}/chat`, request);
     }
 }

@@ -12,7 +12,9 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" [disabled]="chatRequest.prompt.length === 0" 
                 (click)="askQuestion()">Chat</button>
-            <mat-slide-toggle (click)="drawer.toggle()">Advanced</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="chatRequest.advanced">
+                Advanced
+            </mat-slide-toggle>
         </mat-card-actions>
     </mat-card>
 </mat-drawer-container>
