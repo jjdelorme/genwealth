@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { ChatConfigurationComponent } from '../chat-configuration/chat-configuration.component';
 import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
@@ -25,6 +26,7 @@ import { SqlStatementComponent } from '../sql-statement/sql-statement.component'
     MatSlideToggle,
     MatSidenavModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     TextToHtmlPipe,
     SqlStatementComponent,
     ChatConfigurationComponent,
@@ -36,19 +38,20 @@ export class ChatComponent {
   constructor(private genWealthClient: GenWealthServiceClient) {}
   
   chatPlaceholder = "Ask me a question";
-
+  loading: boolean = false;
   chatRequest: ChatRequest = new ChatRequest("");
   chatResponse?: string = undefined;
   query?: string = undefined;
-
+  
   private textToHtmlPipe = new TextToHtmlPipe();
 
   askQuestion() { 
+    this.loading = true;
     this.genWealthClient.chat(this.chatRequest)
       .subscribe({ next: response => {
         this.chatResponse = this.textToHtmlPipe.transform(response.llmResponse);
         this.query = response.query;
-        console.log(this.query);
+        this.loading = false;
       }});
   }
 }

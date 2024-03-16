@@ -4,11 +4,19 @@
     </mat-drawer>
     <mat-card>
         <mat-card-title>Chat with GenWealth</mat-card-title>
-        <app-sql-statement [query]="query">Chat Response:</app-sql-statement>
-        <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
+        @if (loading) {
+            <!-- Loading spinner -->
+            <mat-spinner></mat-spinner>
+        }
+        @else {
+            <!-- Response -->
+            <app-sql-statement [query]="query">Chat Response:</app-sql-statement>
+            <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
+        }
         <mat-form-field>
             <input matInput [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
         </mat-form-field>
+
         <mat-card-actions>
             <button mat-raised-button color="primary" [disabled]="chatRequest.prompt.length === 0" 
                 (click)="askQuestion()">Chat</button>
