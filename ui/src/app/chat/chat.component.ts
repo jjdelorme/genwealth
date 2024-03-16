@@ -9,7 +9,10 @@ import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+
 import { ChatConfigurationComponent } from '../chat-configuration/chat-configuration.component';
+import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
 
 @Component({
   selector: 'app-chat',
@@ -19,9 +22,11 @@ import { ChatConfigurationComponent } from '../chat-configuration/chat-configura
     MatButtonModule,
     FormsModule,
     MatInputModule,    
+    MatSlideToggle,
     MatSidenavModule,
     MatCardModule,
     TextToHtmlPipe,
+    SqlStatementComponent,
     ChatConfigurationComponent,
   ],
   templateUrl: './chat.component.html',
@@ -43,13 +48,11 @@ export class ChatComponent {
       .subscribe({ next: response => {
         this.chatResponse = this.textToHtmlPipe.transform(response.llmResponse);
         this.query = response.query;
-        // reset
-        this.chatRequest.prompt = '';
+        console.log(this.query);
       }});
   }
 
   configureChat() {
-    console.log('clcked');
     this.showConfiguration = !this.showConfiguration;
   }
 }

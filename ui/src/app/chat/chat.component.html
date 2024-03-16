@@ -4,6 +4,7 @@
     </mat-drawer>
     <mat-card>
         <mat-card-title>Chat with GenWealth</mat-card-title>
+        <app-sql-statement [query]="query">Chat Response:</app-sql-statement>
         <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
         <mat-form-field>
             <input matInput [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
@@ -11,8 +12,7 @@
         <mat-card-actions>
             <button mat-raised-button color="primary" [disabled]="chatRequest.prompt.length === 0" 
                 (click)="askQuestion()">Chat</button>
-            <button mat-raised-button color="secondary" [disabled]="chatRequest.prompt.length === 0" 
-                (click)="drawer.toggle()">Configure</button>
+            <mat-slide-toggle (click)="drawer.toggle()">Advanced</mat-slide-toggle>
         </mat-card-actions>
     </mat-card>
 </mat-drawer-container>

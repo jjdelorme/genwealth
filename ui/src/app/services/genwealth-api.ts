@@ -97,12 +97,6 @@ export class GenWealthServiceClient implements GenWealthService {
     }
 
     chat(request: ChatRequest): Observable<ChatResponse> {
-        let params: HttpParams = new HttpParams().set('prompt', request.prompt);
-        
-        if (request.userId) {
-            params = params.set('user_id', request.userId);
-        }
-        
-        return this.http.get<ChatResponse>(`${this.baseUrl}/chat`, { params: params });
+        return this.http.post<ChatResponse>(`${this.baseUrl}/chat`, request);
     }
 }

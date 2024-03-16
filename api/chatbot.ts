@@ -1,15 +1,16 @@
 
+import { ChatRequest } from '../ui/src/app/services/genwealth-api';
 import { Database } from './database';
 
 export class Chatbot {
     constructor(private db: Database) { }
 
-    async chat(prompt: string, userId?: number) {
+    async chat(request: ChatRequest) {
         let query: string;
 
-        userId ? 
-            query = this.getPersonalizedQuery(prompt, userId) :
-            query = this.getQuery(prompt);
+        request.userId ? 
+            query = this.getPersonalizedQuery(request.prompt, request.userId) :
+            query = this.getQuery(request.prompt);
         
         const rows = await this.db.query(query);
         // Chat should return only a single row

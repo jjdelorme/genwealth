@@ -5,6 +5,8 @@ import { Database } from './api/database';
 import { Investments } from './api/investments';
 import { Prospects } from './api/prospects';
 import { Chatbot } from './api/chatbot';
+// Todo: move this reference (temporary hack):
+import { ChatRequest } from './ui/src/app/services/genwealth-api';
 
 //
 // Create the express app
@@ -82,14 +84,13 @@ app.get('/api/investments/semantic-search', async (req: express.Request, res: ex
 });
 
 /** Chat with a financial advisor, 
- * i.e. /chat?prompt=I'm%20interested%20in%20investing%20in%20real%20estate&user_id=90 */
-app.get('/api/chat', async (req: express.Request, res: express.Response) => {
+ */
+app.post('/api/chat', async (req: express.Request, res: express.Response) => {
   try
   {  
-    const prompt: string = req.query.prompt as string;
-    const userId: number | undefined = req.query.user_id as number | undefined;
+    const chatRequest: ChatRequest = req.body;
 
-    const data = await chatbot.chat(prompt, userId);
+    const data = await chatbot.chat(chatRequest);
     res.json(data);
   }
   catch (err)
