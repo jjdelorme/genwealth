@@ -16,6 +16,7 @@ const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
 const chatbot = new Chatbot(db);
+const staticPath = path.join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
 
 //
 // Use middleware
@@ -23,7 +24,7 @@ const chatbot = new Chatbot(db);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'ui/dist/genwealth-advisor-ui/browser/')))
+app.use(express.static(staticPath));
 
 //
 // Setup routes
@@ -98,6 +99,12 @@ app.post('/api/chat', async (req: express.Request, res: express.Response) => {
     console.error('error occurred:', err);
     res.status(500).send(err);
   }      
+});
+
+/** Send any other request just to the static content
+*/
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticPath, 'index.html'));
 });
 
 //
