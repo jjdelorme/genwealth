@@ -8,10 +8,11 @@
             <!-- Loading spinner -->
             <mat-spinner></mat-spinner>
         }
-        @else {
+        @else if (!loading && chatResponse) {
             <!-- Response -->
-            <app-sql-statement [query]="query">Chat Response:</app-sql-statement>
-            <div class="response" *ngIf="chatResponse" innerHtml="{{chatResponse}}" class="chat-response"></div>
+            <app-sql-statement [query]="chatResponse.query">See Query</app-sql-statement>
+            <app-sql-statement [query]="chatResponse.llmPrompt">See Prompt</app-sql-statement>
+            <div class="response" innerHtml="{{chatResponse.llmResponse | textToHtml}}" class="chat-response"></div>
         }
         <mat-form-field>
             <input matInput [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">

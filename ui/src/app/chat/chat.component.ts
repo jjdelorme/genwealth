@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ChatRequest, GenWealthServiceClient } from '../services/genwealth-api';
+import { ChatRequest, ChatResponse, GenWealthServiceClient } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -40,17 +40,13 @@ export class ChatComponent {
   chatPlaceholder = "Ask me a question";
   loading: boolean = false;
   chatRequest: ChatRequest = new ChatRequest("");
-  chatResponse?: string = undefined;
-  query?: string = undefined;
+  chatResponse?: ChatResponse = undefined;
   
-  private textToHtmlPipe = new TextToHtmlPipe();
-
   askQuestion() { 
     this.loading = true;
     this.genWealthClient.chat(this.chatRequest)
       .subscribe({ next: response => {
-        this.chatResponse = this.textToHtmlPipe.transform(response.llmResponse);
-        this.query = response.query;
+        this.chatResponse = response;
         this.loading = false;
       }});
   }
