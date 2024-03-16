@@ -15,7 +15,7 @@
             <div class="response" innerHtml="{{chatResponse.llmResponse | textToHtml}}" class="chat-response"></div>
         }
         <mat-form-field>
-            <input matInput [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
+            <input matInput (keydown.enter)="askQuestion()" [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
         </mat-form-field>
 
         <mat-card-actions>
