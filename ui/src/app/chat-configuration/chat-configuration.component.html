@@ -8,12 +8,15 @@
     <mat-form-field>
         <mat-label>User Id</mat-label>
         <input matInput [(ngModel)]="chatRequest.userId" type="text" floatLabel="always">
+        <mat-slide-toggle style="margin-top: 10px;" [disabled]="!chatRequest.userId" [(ngModel)]="chatRequest.useHistory">Use History</mat-slide-toggle>
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>User Role</mat-label>
-        <input matInput [(ngModel)]="chatRequest.userRole" type="text" floatLabel="always">
-    </mat-form-field>
+    
+    <!-- <mat-form-field floatLabel="always"> -->
+        
+        <!-- <textarea matInput hidden></textarea>
+      </mat-form-field> -->
+    
 
     <mat-form-field>
         <mat-label>LLM Role</mat-label>
@@ -24,11 +27,6 @@
         <mat-label>Mission</mat-label>
         <input matInput [(ngModel)]="chatRequest.mission" type="text" floatLabel="always">
     </mat-form-field>    
-
-    <mat-form-field>
-        <mat-label>Additional Context</mat-label>
-        <input matInput [(ngModel)]="chatRequest.additionalContext" type="text" floatLabel="always">
-    </mat-form-field>
 
     <mat-form-field>
         <mat-label>Output Instructions</mat-label>

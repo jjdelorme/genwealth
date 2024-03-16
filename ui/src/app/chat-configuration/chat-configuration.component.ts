@@ -5,6 +5,7 @@ import { ChatRequest } from '../services/genwealth-api';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatFormFieldModule,
     MatInputModule,    
+    MatSlideToggle,
     FormsModule,
   ],
   templateUrl: './chat-configuration.component.html',

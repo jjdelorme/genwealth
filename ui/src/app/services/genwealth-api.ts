@@ -39,11 +39,10 @@ export class ChatRequest {
     advanced: boolean = false;
     
     userId?: number;
-    userRole: string = 'I am a generic user';
-    llmRole: string = ' You are a helpful AI Assistant';
-    mission?: string; 
-    additionalContext?: string;
-    outputInstructions?: string;
+    useHistory: boolean = false;
+    llmRole: string = 'You are an experienced financial advisor named Penny.';
+    mission?: string = 'Your mission is to help your clients maximize their return on investment and outperform the general market.'
+    outputInstructions?: string = 'Begin your response with a professional greeting. Greet me by name if you know it. End your response with a signature that includes your name and "GenWealth" company affiliation.';
     responseRestrictions: string = 'You have no response restrictions for this prompt.';
     disclaimer?: string;
 }
