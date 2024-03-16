@@ -69,7 +69,7 @@ export class Chatbot {
     }
 
     private userBio = (useHistory: boolean) => `
-        ${useHistory ? 'enable_history => true, ' : ''}
+        ${useHistory ? 'enable_history => true, uid => id,' : ''}
         user_role => CONCAT('My name is ', first_name, ' ', last_name, '. I am ', age, ' years old, and I have a ', risk_profile, ' risk tolerance.'),
         additional_context => CONCAT(E'<BIO>', bio, E'<\BIO>') `;
 
