@@ -1,7 +1,48 @@
-@if (chatRequest) {
-<div>
-    {{chatRequest.prompt}}
+<div *ngIf="chatRequest" class="example-container">
+
+    <mat-form-field>
+        <mat-label>Prompt</mat-label>
+        <input matInput [(ngModel)]="chatRequest.prompt" type="text" floatLabel="always" disabled="true">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>User Id</mat-label>
+        <input matInput [(ngModel)]="chatRequest.userId" type="text" floatLabel="always">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>User Role</mat-label>
+        <input matInput [(ngModel)]="chatRequest.userRole" type="text" floatLabel="always">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>LLM Role</mat-label>
+        <input matInput [(ngModel)]="chatRequest.llmRole" type="text" floatLabel="always">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Mission</mat-label>
+        <input matInput [(ngModel)]="chatRequest.mission" type="text" floatLabel="always">
+    </mat-form-field>    
+
+    <mat-form-field>
+        <mat-label>Additional Context</mat-label>
+        <input matInput [(ngModel)]="chatRequest.additionalContext" type="text" floatLabel="always">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Output Instructions</mat-label>
+        <input matInput [(ngModel)]="chatRequest.outputInstructions" type="text" floatLabel="always">
+    </mat-form-field>    
+
+    <mat-form-field>
+        <mat-label>Response Restrictions</mat-label>
+        <input matInput [(ngModel)]="chatRequest.responseRestrictions" type="text" floatLabel="always">
+    </mat-form-field>    
+
+    <mat-form-field>
+        <mat-label>Disclaimer</mat-label>
+        <input matInput [(ngModel)]="chatRequest.disclaimer" type="text" floatLabel="always">
+    </mat-form-field>    
+
 </div>
-} @else {
-    <p>nothing to show here</p>
-}
