@@ -2,6 +2,16 @@ import { Pool } from 'pg'
 import * as _ from 'lodash';
 
 /**
+ * Required ENV variables to be set:
+
+    PGPORT=5432
+    PGDATABASE=ragdemos
+    PGUSER=postgres
+    PGHOST=
+    PGPASSWORD=
+ */
+
+/**
  * Converts SQL field names from snake_case to camelCase.
  * 
  * @param rows Rows from a database query
@@ -14,6 +24,16 @@ export class Database {
   private pool: Pool;
 
   constructor() {
+    const requiredEnvVars = ['PGPORT', 'PGDATABASE', 'PGUSER', 'PGHOST', 'PGPASSWORD'];
+    requiredEnvVars
+      .forEach((envVar) => {
+        if (!process.env[envVar]) {
+          throw new Error(`Missing required environment variable: ${envVar}`);
+        }
+      });
+
+    // create a config to configure the pool
+
     this.pool = new Pool()
 
     // the pool will emit an error on behalf of any idle clients
