@@ -33,16 +33,9 @@ export class Database {
   private pool: Pool;
 
   constructor() {
-    const requiredEnvVars = ['PGPORT', 'PGDATABASE', 'PGUSER', 'PGHOST', 'PGPASSWORD'];
-    requiredEnvVars
-      .forEach((envVar) => {
-        if (!process.env[envVar]) {
-          throw new Error(`Missing required environment variable: ${envVar}`);
-        }
-      });
-
-    // create a config to configure the pool
-
+    if (!process.env['PGHOST']) {
+      throw new Error(`Missing required environment variable: 'PGHOST'`);
+    }
     this.pool = new Pool()
 
     // the pool will emit an error on behalf of any idle clients
