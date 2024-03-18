@@ -16,6 +16,10 @@
         }
         <mat-form-field>
             <input matInput (keydown.enter)="askQuestion()" [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
+            <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                    (click)="chatRequest.prompt = 'I have $25250 to invest. What do you suggest?'">
+                prompt_suggestion
+            </mat-icon>            
         </mat-form-field>
 
         <mat-card-actions>

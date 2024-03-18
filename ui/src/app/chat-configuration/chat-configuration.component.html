@@ -21,26 +21,46 @@
     <mat-form-field>
         <mat-label>LLM Role</mat-label>
         <input matInput [(ngModel)]="chatRequest.llmRole" type="text" floatLabel="always">
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="chatRequest.llmRole = 'You are a financial chatbot named Penny'">
+            prompt_suggestion
+        </mat-icon>            
     </mat-form-field>
 
     <mat-form-field>
         <mat-label>Mission</mat-label>
-        <input matInput [(ngModel)]="chatRequest.mission" type="text" floatLabel="always">
+        <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.mission" type="text" floatLabel="always"></textarea>
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="chatRequest.mission = 'Your mission is to assist your clients by providing financial education, account details, and basic information related to budgeting, saving, and different types of investments'">
+            prompt_suggestion
+        </mat-icon>        
     </mat-form-field>    
 
     <mat-form-field>
         <mat-label>Output Instructions</mat-label>
-        <input matInput [(ngModel)]="chatRequest.outputInstructions" type="text" floatLabel="always">
+        <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.outputInstructions" type="text" floatLabel="always"></textarea>
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="chatRequest.outputInstructions = 'Begin your response with a professional greeting. Greet me by name if you know it. End your response with a signature that includes your name and GenWealth company affiliation.'">
+            prompt_suggestion
+        </mat-icon>        
     </mat-form-field>    
 
     <mat-form-field>
         <mat-label>Response Restrictions</mat-label>
-        <input matInput [(ngModel)]="chatRequest.responseRestrictions" type="text" floatLabel="always">
+        <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.responseRestrictions" type="text" floatLabel="always"></textarea>
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="chatRequest.responseRestrictions = 'You are not a licensed financial advisor, so your must never provide financial advice under any circumstance. Always start your response by warning that you are not authorized to provide financial advice. If you are asked for financial advice, politely decline to answer, and offer to help with financial education, account information, and basic information related to budgeting, saving, and types of investments.'">
+            prompt_suggestion
+        </mat-icon>              
     </mat-form-field>    
 
     <mat-form-field>
         <mat-label>Disclaimer</mat-label>
-        <input matInput [(ngModel)]="chatRequest.disclaimer" type="text" floatLabel="always">
+        <textarea cdkTextareaAutosize matInput [(ngModel)]="chatRequest.disclaimer" type="text" floatLabel="always"></textarea>
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="chatRequest.disclaimer = 'LEGAL DISCLAIMER: All output from this chatbot is provided for informational purposes only. It is not intended to provide (and should not be relied on for) tax, investment, legal, accounting or financial advice. You should consult your own licensed tax, investment, legal and accounting advisors before engaging in any transaction.'">
+            prompt_suggestion
+        </mat-icon>          
     </mat-form-field>    
 
 </div>

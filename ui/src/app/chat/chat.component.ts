@@ -11,6 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ChatConfigurationComponent } from '../chat-configuration/chat-configuration.component';
 import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
@@ -29,6 +31,8 @@ import { SqlStatementComponent } from '../sql-statement/sql-statement.component'
     MatProgressSpinnerModule,
     TextToHtmlPipe,
     SqlStatementComponent,
+    MatIconModule,
+    MatTooltipModule,
     ChatConfigurationComponent,
   ],
   templateUrl: './chat.component.html',
