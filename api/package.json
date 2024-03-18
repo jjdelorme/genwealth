@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node index.ts",
     "prebuild": "npm install",
-    "build": "npx tsc --outDir ./dist"
+    "build": "npx tsc --outDir ./dist",
+    "clean": "(rm -rf ./dist && rm -rf ./node_modules)"
   },
   "dependencies": {
     "cors": "^2.8.5",
