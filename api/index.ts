@@ -4,9 +4,7 @@ import { join } from 'path';
 import { Database } from './database';
 import { Investments } from './investments';
 import { Prospects } from './prospects';
-import { Chatbot } from './chatbot';
-// Todo: move this reference (temporary hack):
-import { ChatRequest } from '../ui/src/app/services/genwealth-api';
+import { Chatbot, ChatRequest } from './chatbot';
 
 //
 // Create the express app
