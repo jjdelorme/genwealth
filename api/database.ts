@@ -20,6 +20,15 @@ import * as _ from 'lodash';
 export const camelCaseRows = (rows: any[]) => _.map(rows, (row) => 
   _.mapKeys(row, (value, key) => _.camelCase(key)));
 
+/**
+ * Escapes single quotes in a string.
+ * 
+ * @param str String to be escaped
+ * @returns escaped string
+ */
+export const safeString = (str: string) => str.replace(/'/g, "''");
+
+
 export class Database {
   private pool: Pool;
 

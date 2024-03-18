@@ -1,4 +1,4 @@
-import { Database, camelCaseRows } from './database';
+import { Database, camelCaseRows, safeString } from './database';
 
 export class Prospects {
     constructor(private db: Database) { }
@@ -6,7 +6,7 @@ export class Prospects {
 
     async semanticSearch(prompt: string, riskProfile?: string, minAge?: number, maxAge?: number) {
         let query = `SELECT id, first_name, last_name, email, age, risk_profile, bio,
-            bio_embedding <=> embedding('textembedding-gecko@003', '${prompt}') AS distance
+            bio_embedding <=> embedding('textembedding-gecko@003', '${safeString(prompt)}') AS distance
             FROM user_profiles`;
 
         let filters = this.getFilters(riskProfile, minAge, maxAge);

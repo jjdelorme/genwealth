@@ -1,6 +1,6 @@
 
 import { ChatRequest } from '../ui/src/app/services/genwealth-api';
-import { Database } from './database';
+import { Database, safeString } from './database';
 
 export class Chatbot {
     constructor(private db: Database) { }
@@ -18,7 +18,7 @@ export class Chatbot {
     private getQuery(request: ChatRequest) {
         const query = `
             ${request.userId ? this.userPreamble(request.userId) : this.preamble} 
-                prompt => '${this.safeString(request.prompt)}',
+                prompt => '${safeString(request.prompt)}',
                 ${this.getEnrichment(request)}
                 ${request.userId ? this.userBio(request.useHistory) : `
                     user_role => 'I am a generic user'`} 
@@ -33,19 +33,19 @@ export class Chatbot {
             `;
 
         if (request.llmRole)
-            enrichment += `llm_role => '${this.safeString(request.llmRole)}',
+            enrichment += `llm_role => '${safeString(request.llmRole)}',
             `;
         if (request.mission)
-            enrichment += `mission => '${this.safeString(request.mission)}',
+            enrichment += `mission => '${safeString(request.mission)}',
             `;
         if (request.outputInstructions)        
-            enrichment += `output_instructions => '${this.safeString(request.outputInstructions)}',
+            enrichment += `output_instructions => '${safeString(request.outputInstructions)}',
             `;
         if (request.disclaimer)        
-            enrichment += `disclaimer => '${this.safeString(request.disclaimer)}',
+            enrichment += `disclaimer => '${safeString(request.disclaimer)}',
             `;
         if (request.responseRestrictions)        
-            enrichment += `response_restrictions => '${this.safeString(request.responseRestrictions)}',
+            enrichment += `response_restrictions => '${safeString(request.responseRestrictions)}',
             `;
 
         return enrichment;
@@ -72,8 +72,4 @@ export class Chatbot {
         ${useHistory ? 'enable_history => true, uid => id,' : ''}
         user_role => CONCAT('My name is ', first_name, ' ', last_name, '. I am ', age, ' years old, and I have a ', risk_profile, ' risk tolerance.'),
         additional_context => CONCAT(E'<BIO>', bio, E'<\BIO>') `;
-
-    private safeString(str: string) {
-        return str.replace(/'/g, "''");
-    }
 }
