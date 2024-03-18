@@ -4,7 +4,9 @@
   "description": "GenWealth Advisor API.",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.ts",
+    "prebuild": "npm install",
+    "build": "npx tsc --outDir ./dist"
   },
   "dependencies": {
     "cors": "^2.8.5",
