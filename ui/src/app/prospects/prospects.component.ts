@@ -11,6 +11,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ProspectResultsComponent } from '../prospect-results/prospect-results.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-prospects',
@@ -23,6 +25,8 @@ import { ProspectResultsComponent } from '../prospect-results/prospect-results.c
     MatCardModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatIconModule,
+    MatTooltipModule,    
     ProspectResultsComponent,
   ],
   templateUrl: './prospects.component.html',

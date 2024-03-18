@@ -3,6 +3,10 @@
     <mat-form-field>
         <input [(ngModel)]="prospectSearch" (keydown.enter)="findProspects()" matInput 
             placeholder="Describe your ideal prospect">
+        <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
+                (click)="prospectSearch = 'young aggressive investor'">
+            prompt_suggestion
+        </mat-icon>
     </mat-form-field>
     
     <div>
