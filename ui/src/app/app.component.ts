@@ -35,13 +35,9 @@ export class AppComponent implements OnInit {
 
   isSmallScreen: boolean = false;
 
-  ngOnInit() {
-  
+  ngOnInit() { 
     this.breakpointObserver
       .observe([Breakpoints.Handset])
-      .subscribe((result) => {
-        this.isSmallScreen = this.breakpointObserver.isMatched(Breakpoints.Handset);
-        console.log('screensize is small:', this.isSmallScreen);
-      });
+      .subscribe( _ => this.isSmallScreen = this.breakpointObserver.isMatched(Breakpoints.Handset) );
   }
 }

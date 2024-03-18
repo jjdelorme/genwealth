@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Prospect, QueryResponse } from '../services/genwealth-api';
 import { TextToHtmlPipe } from '../services/text-to-html.pipe';
 import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-prospect-results',
@@ -31,7 +32,9 @@ import { SqlStatementComponent } from '../sql-statement/sql-statement.component'
     ]),
   ],  
 })
-export class ProspectResultsComponent {
+export class ProspectResultsComponent implements OnInit {
+  constructor(private breakpointObserver: BreakpointObserver) {}
+
   @Input()
   set prospects(observable: Observable<QueryResponse<Prospect>>) {
     observable.subscribe({ next: response => {
@@ -41,9 +44,26 @@ export class ProspectResultsComponent {
     }});
   }
 
-  columnsToDisplay: string[] = ['id', 'firstName','lastName','email','age','riskProfile'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplaySmall: string[] = ['id', 'firstName','lastName'];
+  columnsToDisplayLarge: string[] =[...this.columnsToDisplaySmall, 'email','age','riskProfile'];
+  columnsToDisplay: string[] = this.columnsToDisplayLarge;
+  columnsToDisplayWithExpand: string[] = [];
   expandedElement?: Prospect | null;  
   dataSource = new MatTableDataSource<Prospect>();
   query?: string = undefined;
+
+  ngOnInit() { 
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .subscribe(_ => {
+        if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
+          console.log('Handset');
+          this.columnsToDisplay = this.columnsToDisplaySmall;
+        } else {
+          console.log('Big');
+          this.columnsToDisplay = this.columnsToDisplayLarge;
+        }
+        this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+      });
+  }
 }
