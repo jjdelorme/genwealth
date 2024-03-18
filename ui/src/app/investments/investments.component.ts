@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { InvestmentResultsComponent } from '../investment-results/investment-results.component';
 
@@ -26,6 +28,8 @@ export enum SearchType {
     MatInputModule,
     MatCardModule,
     MatRadioModule,
+    MatIconModule,
+    MatTooltipModule,
     InvestmentResultsComponent,
   ],
   templateUrl: './investments.component.html',
@@ -44,7 +48,6 @@ export class InvestmentsComponent {
 
   investments?: Observable<QueryResponse<Investment>> = undefined;
   
-  
   findInvestments() {
     switch (this.searchType) {
       case SearchType.KEYWORD:
@@ -57,6 +60,17 @@ export class InvestmentsComponent {
         break;
       default:
         break;
+    }
+  }
+
+  getSuggestion() {
+    switch (this.searchType) {
+      case SearchType.KEYWORD:
+        return "hedge, high inflation";
+      case SearchType.SEMANTIC:
+        return "hedge against high inflation";
+      default:
+        return '';
     }
   }
 }

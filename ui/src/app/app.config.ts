@@ -12,7 +12,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), provideAnimationsAsync(),
     {
       provide: BASE_URL,
-      useValue: '/api'
+      useValue: 'https://genwealth-3tl63eyydq-uc.a.run.app/api'
     },
     importProvidersFrom(HttpClientModule),
   ]
