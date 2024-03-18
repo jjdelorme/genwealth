@@ -1,6 +1,16 @@
-
-import { ChatRequest } from '../ui/src/app/services/genwealth-api';
 import { Database, safeString } from './database';
+
+export interface ChatRequest {
+    prompt: string;
+    advanced: boolean;
+    userId?: number;
+    useHistory: boolean;
+    llmRole?: string;
+    mission?: string;
+    outputInstructions?: string;
+    responseRestrictions?: string;
+    disclaimer?: string;
+}
 
 export class Chatbot {
     constructor(private db: Database) { }
