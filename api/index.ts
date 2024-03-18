@@ -1,12 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import path from 'path';
-import { Database } from './api/database';
-import { Investments } from './api/investments';
-import { Prospects } from './api/prospects';
-import { Chatbot } from './api/chatbot';
+import * as express from 'express';
+import * as cors from 'cors';
+import { join } from 'path';
+import { Database } from './database';
+import { Investments } from './investments';
+import { Prospects } from './prospects';
+import { Chatbot } from './chatbot';
 // Todo: move this reference (temporary hack):
-import { ChatRequest } from './ui/src/app/services/genwealth-api';
+import { ChatRequest } from '../ui/src/app/services/genwealth-api';
 
 //
 // Create the express app
@@ -16,7 +16,7 @@ const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
 const chatbot = new Chatbot(db);
-const staticPath = path.join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
+const staticPath = join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
 
 //
 // Use middleware
@@ -71,8 +71,8 @@ app.get('/api/investments/semantic-search', async (req: express.Request, res: ex
   {
     const prompt: string = req.query.prompt as string;
     const riskProfile: string | undefined = req.query.risk_profile as string;
-    const minAge: number | undefined = req.query.min_age as number | undefined;  
-    const maxAge: number | undefined = req.query.max_age as number | undefined;
+    const minAge: number | undefined = req.query.min_age ? Number(req.query.min_age) : undefined;
+    const maxAge: number | undefined = req.query.max_age ? Number(req.query.max_age) : undefined;
 
     const response = await prospects.semanticSearch(prompt, riskProfile, minAge, maxAge);
     res.json(response);
@@ -104,7 +104,7 @@ app.post('/api/chat', async (req: express.Request, res: express.Response) => {
 /** Send any other request just to the static content
 */
 app.get('*', (req, res) => {
-  res.sendFile(path.join(staticPath, 'index.html'));
+  res.sendFile(join(staticPath, 'index.html'));
 });
 
 //

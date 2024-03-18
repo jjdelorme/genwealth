@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true
+    },
+    "outFile": "../dist/index.js"
+}
+
