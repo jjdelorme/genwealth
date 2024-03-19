@@ -11,7 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { InvestmentResultsComponent } from '../investment-results/investment-results.component';
+import { InvestmentResultsComponent } from './results/investment-results.component';
 
 export enum SearchType {
   KEYWORD = 'keyword',

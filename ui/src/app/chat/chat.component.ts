@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ChatRequest, ChatResponse, GenWealthServiceClient } from '../services/genwealth-api';
-import { TextToHtmlPipe } from '../services/text-to-html.pipe';
+import { TextToHtmlPipe } from '../common/text-to-html.pipe';
 
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -14,8 +14,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ChatConfigurationComponent } from '../chat-configuration/chat-configuration.component';
-import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
+import { ChatConfigurationComponent } from './configuration/chat-configuration.component';
+import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
 
 @Component({
   selector: 'app-chat',

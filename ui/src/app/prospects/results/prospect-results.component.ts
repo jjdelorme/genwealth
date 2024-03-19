@@ -6,9 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Observable } from 'rxjs';
 
-import { Prospect, QueryResponse } from '../services/genwealth-api';
-import { TextToHtmlPipe } from '../services/text-to-html.pipe';
-import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
+import { Prospect, QueryResponse } from '../../services/genwealth-api';
+import { TextToHtmlPipe } from '../../common/text-to-html.pipe';
+import { SqlStatementComponent } from '../../common/sql-statement/sql-statement.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({

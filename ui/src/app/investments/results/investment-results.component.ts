@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { QueryResponse, Investment } from '../services/genwealth-api';
+import { QueryResponse, Investment } from '../../services/genwealth-api';
 import { Observable } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import { TextToHtmlPipe } from '../services/text-to-html.pipe';
-import { SqlStatementComponent } from '../sql-statement/sql-statement.component';
+import { TextToHtmlPipe } from '../../common/text-to-html.pipe';
+import { SqlStatementComponent } from '../../common/sql-statement/sql-statement.component';
 
 @Component({
   selector: 'app-investment-results',
