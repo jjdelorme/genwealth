@@ -41,7 +41,7 @@ IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:v$TAG_NAME
 #docker push $IMAGE
 
 # Step 3: Deploy to Cloud Run
-gcloud beta run deploy genwealth2 \
+gcloud beta run deploy genwealth \
     --image=$IMAGE \
     --execution-environment=gen2 \
     --cpu-boost \
