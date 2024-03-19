@@ -1,10 +1,13 @@
-# Clone the repo
-# git clone git@github.com:jjdelorme/genwealth.git
-# cd genwealth
+###
+### Deploys the genwealth app to Cloud Run
+###
+### NOTE: you need the latest version of gcloud (i.e. 468 or later) to deploy this
+###
 
-#
-# *****TODO***** Fill in the following variables:
-#
+# **************
+# *****TODO***** 
+# **************
+# Fill in the following variables:
 PGHOST=x.x.x.x
 PGPORT=5432
 PGDATABASE=ragdemos
@@ -13,8 +16,17 @@ PGPASSWORD=xxxx
 VPC_NETWORK=demo-vpc
 VPC_SUBNET=$VPC_NETWORK # It’s the same name right now
 
+# Clone the repo
+git clone http://github.com/jjdelorme/genwealth.git
+cd genwealth
+
 PROJECT_ID=$(gcloud config get-value project)
 REGION=$(gcloud config get-value run/region)
+
+if [ -z "$PROJECT_ID" ]; then
+  echo "PROJECT_ID is not set."
+  exit 1
+fi
 
 if [ -z "$REGION" ]; then
   echo "REGION is not set. Please set the gcloud run/region."
