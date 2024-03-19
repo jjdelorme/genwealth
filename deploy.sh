@@ -4,10 +4,9 @@
 ### NOTE: you need the latest version of gcloud (i.e. 468 or later) to deploy this
 ###
 
-# **************
-# *****TODO***** 
-# **************
-# Fill in the following variables:
+# 
+# TODO:  Fill in the following variables:
+#
 PGHOST=x.x.x.x
 PGPORT=5432
 PGDATABASE=ragdemos
@@ -16,7 +15,9 @@ PGPASSWORD=xxxx
 VPC_NETWORK=demo-vpc
 VPC_SUBNET=$VPC_NETWORK # It’s the same name right now
 
-# Clone the repo
+#
+# Step 1: Clone the repo
+#
 git clone http://github.com/jjdelorme/genwealth.git
 cd genwealth
 
@@ -36,11 +37,15 @@ fi
 TAG_NAME=$(git describe --abbrev=0 --tags)
 IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:v$TAG_NAME
 
+#
 # Step 2: Build & push the container
-#docker build -t $IMAGE .
-#docker push $IMAGE
+#
+docker build -t $IMAGE .
+docker push $IMAGE
 
+#
 # Step 3: Deploy to Cloud Run
+#
 gcloud beta run deploy genwealth \
     --image=$IMAGE \
     --execution-environment=gen2 \
