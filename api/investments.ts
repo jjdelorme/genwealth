@@ -16,7 +16,8 @@ export class Investments {
             }
         }
         
-        query += `LIMIT 5;`
+        query += ` 
+            LIMIT 5;`
 
         const rows = await this.db.query(query);
         return { data: camelCaseRows(rows), query: query };
