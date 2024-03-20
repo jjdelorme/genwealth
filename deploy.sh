@@ -4,9 +4,14 @@
 ### NOTE: you need the latest version of gcloud (i.e. 468 or later) to deploy this
 ###
 
-# 
-# TODO:  Fill in the following variables:
 #
+# Prerequesites:
+#
+
+# Clone the repository:
+# git clone http://github.com/jjdelorme/genwealth.git
+
+# Fill in the following variables:
 PGHOST=x.x.x.x
 PGPORT=5432
 PGDATABASE=ragdemos
@@ -14,12 +19,6 @@ PGUSER=postgres
 PGPASSWORD=xxxx
 VPC_NETWORK=demo-vpc
 VPC_SUBNET=$VPC_NETWORK # It’s the same name right now
-
-#
-# Step 1: Clone the repo
-#
-git clone http://github.com/jjdelorme/genwealth.git
-cd genwealth
 
 PROJECT_ID=$(gcloud config get-value project)
 REGION=$(gcloud config get-value run/region)
@@ -34,12 +33,27 @@ if [ -z "$REGION" ]; then
   exit 1
 fi
 
-TAG_NAME=$(git describe --abbrev=0 --tags)
-IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:v$TAG_NAME
+#
+# Enable required APIs
+#
+gcloud services enable run.googleapis.com --project ${PROJECT_ID}
+gcloud services enable artifactregistry.googleapis.com --project ${PROJECT_ID}
+gcloud services enable cloudbuild.googleapis.com --project ${PROJECT_ID}
 
 #
-# Step 2: Build & push the container
+# Create the Artifact Registry repository:
 #
+gcloud artifacts repositories create genwealth \
+--repository-format=docker \
+--location=$REGION \
+--project=$PROJECT_ID 
+
+#
+# Build & push the container
+#
+TAG_NAME=$(git describe --abbrev=0 --tags)
+IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:$TAG_NAME
+
 docker build -t $IMAGE .
 docker push $IMAGE
 
