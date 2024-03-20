@@ -56,6 +56,7 @@ export interface GenWealthService {
         minAge?: number,
         maxAge?: number): Observable<QueryResponse<Prospect>>;
     chat(request: ChatRequest): Observable<ChatResponse>; 
+    uploadProspectus(ticker: string, file: File): Observable<void>;
 }
 
 @Injectable({
@@ -101,5 +102,12 @@ export class GenWealthServiceClient implements GenWealthService {
     chat(request: ChatRequest): Observable<ChatResponse> {
         console.log('chat', request);
         return this.http.post<ChatResponse>(`${this.baseUrl}/chat`, request);
+    }
+
+    uploadProspectus(ticker: string, file: File): Observable<void> {
+        const formData = new FormData();
+        formData.append('ticker', ticker);
+        formData.append('file', file);
+        return this.http.post<void>(`${this.baseUrl}/prospectus-upload`, formData);
     }
 }

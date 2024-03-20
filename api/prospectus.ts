@@ -1,7 +1,8 @@
 import { Storage } from '@google-cloud/storage';
 
-/** Helper class for working with GCP APIs */
-export class GoogleCloud {
+/** 
+ */
+export class Prospectus {
     private readonly projectId: string;
 
     constructor() {
@@ -11,7 +12,7 @@ export class GoogleCloud {
         }
     }
 
-    async uploadFile(buffer: Buffer, filename: string) {
+    async upload(buffer: Buffer, filename: string, ticker?: string) {
         const bucketName = process.env['PROSPECTUS_BUCKET'];
         if (!bucketName)
             throw new Error("PROSPECTUS_BUCKET environment variable not set");

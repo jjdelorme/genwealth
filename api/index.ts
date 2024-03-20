@@ -7,7 +7,7 @@ import { Database } from './database';
 import { Investments } from './investments';
 import { Prospects } from './prospects';
 import { Chatbot, ChatRequest } from './chatbot';
-import { GoogleCloud } from './gcp';
+import { Prospectus } from './prospectus';
 
 //
 // Create the express app
@@ -17,6 +17,7 @@ const upload = multer();
 const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
+const prospectus = new Prospectus();
 const chatbot = new Chatbot(db);
 const staticPath = join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
 
@@ -103,15 +104,9 @@ app.post('/api/chat', async (req: express.Request, res: express.Response) => {
   }      
 });
 
-/** Send any other request just to the static content
-*/
-app.get('*', (req, res) => {
-  res.sendFile(join(staticPath, 'index.html'));
-});
-
 /** Upload prospectus files.
  */
-app.post('/api/prospectus/upload', upload.single('file'), async (req, res) => {
+app.post('/api/prospectus-upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       console.log('No file received.');
@@ -120,17 +115,25 @@ app.post('/api/prospectus/upload', upload.single('file'), async (req, res) => {
 
     // Get the file from the request
     const file = req.file;
+    const ticker = req.body.ticker;
+
+    console.log('Uploading file:', file.originalname, ticker);
 
     // Upload
-    const gcs = new GoogleCloud();
-    await gcs.uploadFile(file.buffer, file.originalname);
+    await prospectus.upload(file.buffer, file.originalname, ticker);
 
-    res.status(200).send('File uploaded.');
+    res.status(200).send();
   }
   catch (err) {
     console.error(err);
     res.status(500).send(err);
   }
+});
+
+/** Send any other request just to the static content
+*/
+app.get('*', (req, res) => {
+  res.sendFile(join(staticPath, 'index.html'));
 });
 
 //
