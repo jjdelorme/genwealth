@@ -1,15 +1,19 @@
 import * as express from 'express';
 import * as cors from 'cors';
+import * as multer from 'multer';
 import { join } from 'path';
+
 import { Database } from './database';
 import { Investments } from './investments';
 import { Prospects } from './prospects';
 import { Chatbot, ChatRequest } from './chatbot';
+import { GoogleCloud } from './gcp';
 
 //
 // Create the express app
 //
 const app: express.Application = express();
+const upload = multer();
 const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
@@ -103,6 +107,30 @@ app.post('/api/chat', async (req: express.Request, res: express.Response) => {
 */
 app.get('*', (req, res) => {
   res.sendFile(join(staticPath, 'index.html'));
+});
+
+/** Upload prospectus files.
+ */
+app.post('/api/prospectus/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      console.log('No file received.');
+      return res.status(400).send('No file received.');
+    }
+
+    // Get the file from the request
+    const file = req.file;
+
+    // Upload
+    const gcs = new GoogleCloud();
+    await gcs.uploadFile(file.buffer, file.originalname);
+
+    res.status(200).send('File uploaded.');
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
 });
 
 //
