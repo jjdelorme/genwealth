@@ -35,7 +35,7 @@ if [ -z "$REGION" ]; then
 fi
 
 TAG_NAME=$(git describe --abbrev=0 --tags)
-IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:v$TAG_NAME
+IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:$TAG_NAME
 
 #
 # Step 2: Build & push the container
