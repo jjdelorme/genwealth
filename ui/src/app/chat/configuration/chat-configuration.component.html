@@ -1,28 +1,16 @@
 <div *ngIf="chatRequest" class="example-container">
 
     <mat-form-field>
-        <mat-label>Prompt</mat-label>
-        <input matInput [(ngModel)]="chatRequest.prompt" type="text" floatLabel="always" disabled="true">
-    </mat-form-field>
-
-    <mat-form-field>
         <mat-label>User Id</mat-label>
         <input matInput [(ngModel)]="chatRequest.userId" type="text" floatLabel="always">
         <mat-slide-toggle style="margin-top: 10px;" [disabled]="!chatRequest.userId" [(ngModel)]="chatRequest.useHistory">Use History</mat-slide-toggle>
     </mat-form-field>
 
-    
-    <!-- <mat-form-field floatLabel="always"> -->
-        
-        <!-- <textarea matInput hidden></textarea>
-      </mat-form-field> -->
-    
-
     <mat-form-field>
         <mat-label>LLM Role</mat-label>
         <input matInput [(ngModel)]="chatRequest.llmRole" type="text" floatLabel="always">
         <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                (click)="chatRequest.llmRole = 'You are a financial chatbot named Penny'">
+                (click)="chatRequest.llmRole = defaultRequest.llmRole">
             prompt_suggestion
         </mat-icon>            
     </mat-form-field>
@@ -31,7 +19,7 @@
         <mat-label>Mission</mat-label>
         <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.mission" type="text" floatLabel="always"></textarea>
         <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                (click)="chatRequest.mission = 'Your mission is to assist your clients by providing financial education, account details, and basic information related to budgeting, saving, and different types of investments'">
+                (click)="chatRequest.mission = defaultRequest.mission">
             prompt_suggestion
         </mat-icon>        
     </mat-form-field>    
@@ -40,7 +28,7 @@
         <mat-label>Output Instructions</mat-label>
         <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.outputInstructions" type="text" floatLabel="always"></textarea>
         <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                (click)="chatRequest.outputInstructions = 'Begin your response with a professional greeting. Greet me by name if you know it. End your response with a signature that includes your name and GenWealth company affiliation.'">
+                (click)="chatRequest.outputInstructions = defaultRequest.outputInstructions">
             prompt_suggestion
         </mat-icon>        
     </mat-form-field>    
@@ -49,7 +37,7 @@
         <mat-label>Response Restrictions</mat-label>
         <textarea matInput cdkTextareaAutosize [(ngModel)]="chatRequest.responseRestrictions" type="text" floatLabel="always"></textarea>
         <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                (click)="chatRequest.responseRestrictions = 'You are not a licensed financial advisor, so your must never provide financial advice under any circumstance. Always start your response by warning that you are not authorized to provide financial advice. If you are asked for financial advice, politely decline to answer, and offer to help with financial education, account information, and basic information related to budgeting, saving, and types of investments.'">
+                (click)="chatRequest.responseRestrictions = defaultRequest.responseRestrictions">
             prompt_suggestion
         </mat-icon>              
     </mat-form-field>    
@@ -58,9 +46,12 @@
         <mat-label>Disclaimer</mat-label>
         <textarea cdkTextareaAutosize matInput [(ngModel)]="chatRequest.disclaimer" type="text" floatLabel="always"></textarea>
         <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                (click)="chatRequest.disclaimer = 'LEGAL DISCLAIMER: All output from this chatbot is provided for informational purposes only. It is not intended to provide (and should not be relied on for) tax, investment, legal, accounting or financial advice. You should consult your own licensed tax, investment, legal and accounting advisors before engaging in any transaction.'">
+                (click)="chatRequest.disclaimer = defaultRequest.disclaimer">
             prompt_suggestion
         </mat-icon>          
     </mat-form-field>    
+
+    <button mat-button color="primary" (click)="useDefault()">Default</button>
+    <button mat-button color="secondary" (click)="reset()">Reset</button>
 
 </div>

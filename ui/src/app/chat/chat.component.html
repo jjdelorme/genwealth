@@ -15,7 +15,7 @@
             <div class="response" innerHtml="{{chatResponse.llmResponse | textToHtml}}" class="chat-response"></div>
         }
         <mat-form-field>
-            <input matInput (keydown.enter)="askQuestion()" [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder">
+            <textarea cdkTextareaAutosize matInput (keydown.enter)="askQuestion()" [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder"></textarea>
             <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
                     (click)="chatRequest.prompt = 'I have $25250 to invest. What do you suggest?'">
                 prompt_suggestion
