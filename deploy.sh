@@ -33,7 +33,16 @@ if [ -z "$REGION" ]; then
   exit 1
 fi
 
+#
+# Enable required APIs
+#
+gcloud services enable run.googleapis.com --project ${PROJECT_ID}
+gcloud services enable artifactregistry.googleapis.com --project ${PROJECT_ID}
+gcloud services enable cloudbuild.googleapis.com --project ${PROJECT_ID}
+
+#
 # Create the Artifact Registry repository:
+#
 gcloud artifacts repositories create genwealth \
 --repository-format=docker \
 --location=$REGION \
