@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ChatRequest, ChatResponse, GenWealthServiceClient } from '../services/genwealth-api';
@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ChatConfigurationComponent } from './configuration/chat-configuration.component';
 import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -38,14 +39,23 @@ import { SqlStatementComponent } from '../common/sql-statement/sql-statement.com
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent {
-  constructor(private genWealthClient: GenWealthServiceClient) {}
-  
+export class ChatComponent implements OnInit { 
   chatPlaceholder = "Ask me a question";
   loading: boolean = false;
   chatRequest: ChatRequest = new ChatRequest("");
   chatResponse?: ChatResponse = undefined;
   
+  constructor(
+    private route: ActivatedRoute,
+    private genWealthClient: GenWealthServiceClient) {}  
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(params => {
+      const userId = params.get('userId') ?? undefined;
+      this.chatRequest.userId = userId ? Number(userId) : undefined;
+    });
+  }
+
   askQuestion() { 
     this.loading = true;
     this.genWealthClient.chat(this.chatRequest)
