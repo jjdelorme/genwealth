@@ -1,5 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 import { SearchServiceClient } from '@google-cloud/discoveryengine';
+import gcpMetadata  from 'gcp-metadata';
 import { v4 as uuidv4 } from 'uuid';
 
 /** 
@@ -7,49 +8,51 @@ import { v4 as uuidv4 } from 'uuid';
 export class Prospectus {
     private readonly storageClient: Storage;
     private readonly searchClient: SearchServiceClient;
-    private readonly searchServingConfig: string;
 
     constructor() {
-        const projectId = process.env['PROJECT_ID'];
+        this.storageClient = new Storage();
+        this.searchClient = new SearchServiceClient();
+    }
+
+    /** Upload a prospectus and generate the metadata for indexing in Vertex Search & Conversation.
+     */
+    async upload(buffer: Buffer, filename: string, ticker: string) {
+        const bucketName = process.env['PROSPECTUS_BUCKET'];
+        if (!bucketName)
+            throw new Error("PROSPECTUS_BUCKET environment variable not set");
+       
+        const prospectusBlob = this.storageClient.bucket(bucketName).file(filename);
+        await prospectusBlob.save(buffer);
+
+        const metadata = this.getMetadata(prospectusBlob.cloudStorageURI.toString(), ticker);
+        const metadataBlob = this.storageClient.bucket(bucketName).file(`${ticker}.jsonl`);
+        await metadataBlob.save(JSON.stringify(metadata));
+
+        console.log(`Uploaded ${filename} to ${bucketName}`);
+
+        // TODO: Kick off the indexing
+
+    }
+
+    async search(query: string, ticker?: string) {
+        const projectId = process.env['PROJECT_ID'] ?? await gcpMetadata.project('project-id');
         if (!projectId) {
             throw new Error('PROJECT_ID environment variable not set');
         }
+
         const dataStoreId = process.env['DATASTORE_ID'];
         if (!dataStoreId) {
             throw new Error('DATASTORE_ID environment variable not set');
         }
 
-        this.storageClient = new Storage({projectId: projectId});
-
-        this.searchClient = new SearchServiceClient();
-        this.searchServingConfig = this.searchClient.projectLocationCollectionDataStoreServingConfigPath(
+        const searchServingConfig = this.searchClient.projectLocationCollectionDataStoreServingConfigPath(
             projectId,
             "global",
             "default_collection",
             dataStoreId,
             "default_search"
           );
-    }
 
-    async upload(buffer: Buffer, filename: string, ticker: string) {
-        const bucketName = process.env['PROSPECTUS_BUCKET'];
-        if (!bucketName)
-            throw new Error("PROSPECTUS_BUCKET environment variable not set");
-       
-        const blob = this.storageClient.bucket(bucketName).file(filename);
-
-        await blob.save(buffer);
-
-        const metadata = this.getMetadata(blob.cloudStorageURI.toString(), ticker);
-        const metadataBlob = this.storageClient.bucket(bucketName).file(`${ticker}.jsonl`);
-        await metadataBlob.save(JSON.stringify(metadata));
-
-        console.log(`Uploaded ${filename} to ${bucketName}`);
-
-        // TODO: index the file
-    }
-
-    async search(query: string, ticker?: string) {
           const request = {
             pageSize: 5,
             query: query,
@@ -67,7 +70,7 @@ export class Prospectus {
                 }
             },
             filter: `ticker: ANY(\"${ticker}\")`,
-            servingConfig: this.searchServingConfig,
+            servingConfig: searchServingConfig,
           };
                
           // Perform search request
