@@ -29,7 +29,6 @@ import { MatTabsModule } from '@angular/material/tabs';
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class ProspectusComponent {
-  showUpload: boolean = false;
   uploaded: boolean = false;
   ticker?: string = undefined;
 
@@ -42,8 +41,6 @@ export class ProspectusComponent {
       this.genWealthClient.uploadProspectus(this.ticker, file).subscribe({
         next: () => {
           this.uploaded = true;
-          this.showUpload = false;
-          this.ticker = '';
         },
         error: (error) => {
           console.log('error', error);
@@ -51,4 +48,9 @@ export class ProspectusComponent {
       });
     }
   }  
+
+  reset() {
+    this.uploaded = false;
+    this.ticker = undefined;
+  }
 }

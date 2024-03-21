@@ -5,16 +5,18 @@
             <div class="upload-container">
                 <p>Provide a ticker symbol and select a prospectus to upload.</p>
                 @if (uploaded) {
-                    <div>Success!</div>
+                    <p>Successfully uploaded prospectus for [{{ticker}}].</p>
+                    <button mat-raised-button color="primary" (click)="reset()">Upload Another</button>
+                } @else {
+                    <mat-form-field class="ticker" >
+                        <input matInput [(ngModel)]="ticker" placeholder="Ticker">
+                    </mat-form-field>
+                    <input type="file" class="file-input" (change)="uploadProspectus($event)" #fileUpload>
+                    <button mat-mini-fab color="primary" class="upload-button" 
+                        [disabled]="!ticker" (click)="fileUpload.click()">
+                        <mat-icon>attach_file</mat-icon>
+                    </button>
                 }
-                <mat-form-field class="ticker" >
-                    <input matInput [(ngModel)]="ticker" placeholder="Ticker">
-                </mat-form-field>
-                <input type="file" class="file-input" (change)="uploadProspectus($event)" #fileUpload>
-                <button mat-mini-fab color="primary" class="upload-button" 
-                    [disabled]="!ticker" (click)="fileUpload.click()">
-                    <mat-icon>attach_file</mat-icon>
-                </button>
             </div>
         </mat-tab>        
         <mat-tab label="Search">
