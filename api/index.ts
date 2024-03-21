@@ -1,6 +1,6 @@
-import * as express from 'express';
-import * as cors from 'cors';
-import * as multer from 'multer';
+import express from 'express';
+import cors from 'cors';
+import multer from 'multer';
 import { join } from 'path';
 
 import { Database } from './database';

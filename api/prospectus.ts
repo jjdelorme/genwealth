@@ -31,7 +31,7 @@ export class Prospectus {
           );
     }
 
-    async upload(buffer: Buffer, filename: string, ticker?: string) {
+    async upload(buffer: Buffer, filename: string, ticker: string) {
         const bucketName = process.env['PROSPECTUS_BUCKET'];
         if (!bucketName)
             throw new Error("PROSPECTUS_BUCKET environment variable not set");
