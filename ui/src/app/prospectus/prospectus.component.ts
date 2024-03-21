@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-prospectus',
@@ -21,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatRadioModule,
     MatIconModule,
     MatTooltipModule,    
+    MatTabsModule,
   ],
   templateUrl: './prospectus.component.html',
   styleUrl: './prospectus.component.scss',
