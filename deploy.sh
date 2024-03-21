@@ -19,6 +19,8 @@ PGUSER=postgres
 PGPASSWORD=xxxx
 VPC_NETWORK=demo-vpc
 VPC_SUBNET=$VPC_NETWORK # It’s the same name right now
+DATASTORE_ID=xxxx # Datastore ID used by Vertex S&C
+PROSPECTUS_BUCKET=xxxx # GCS Bucket for storing pro
 
 PROJECT_ID=$(gcloud config get-value project)
 REGION=$(gcloud config get-value run/region)
@@ -70,5 +72,5 @@ gcloud beta run deploy genwealth \
     --region=$REGION \
     --project=$PROJECT_ID \
     --allow-unauthenticated \
-    --set-env-vars=PGHOST=$PGHOST,PGPORT=$PGPORT,PGDATABASE=$PGDATABASE,PGUSER=$PGUSER,PGPASSWORD=$PGPASSWORD
+    --set-env-vars=PGHOST=$PGHOST,PGPORT=$PGPORT,PGDATABASE=$PGDATABASE,PGUSER=$PGUSER,PGPASSWORD=$PGPASSWORD,DATASTORE_ID=$DATASTORE_ID,PROSPECTUS_BUCKET=$PROSPECTUS_BUCKET
 

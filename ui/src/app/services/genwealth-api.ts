@@ -108,6 +108,6 @@ export class GenWealthServiceClient implements GenWealthService {
         const formData = new FormData();
         formData.append('ticker', ticker);
         formData.append('file', file);
-        return this.http.post<void>(`${this.baseUrl}/prospectus-upload`, formData);
+        return this.http.post<void>(`${this.baseUrl}/prospectus/upload`, formData);
     }
 }

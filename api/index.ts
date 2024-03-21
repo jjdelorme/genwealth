@@ -106,7 +106,7 @@ app.post('/api/chat', async (req: express.Request, res: express.Response) => {
 
 /** Upload prospectus files.
  */
-app.post('/api/prospectus-upload', upload.single('file'), async (req, res) => {
+app.post('/api/prospectus/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       console.log('No file received.');
@@ -123,6 +123,19 @@ app.post('/api/prospectus-upload', upload.single('file'), async (req, res) => {
     await prospectus.upload(file.buffer, file.originalname, ticker);
 
     res.status(200).send();
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+app.get('/api/prospectus/search', async (req, res) => {
+  try {
+    const ticker = req.query.ticker as string;
+    const query = req.query.query as string;
+    const response = await prospectus.search(query, ticker);
+    res.json(response);
   }
   catch (err) {
     console.error(err);

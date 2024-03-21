@@ -10,6 +10,7 @@
     "clean": "(rm -rf ./dist && rm -rf ./node_modules)"
   },
   "dependencies": {
+    "@google-cloud/discoveryengine": "^1.4.1",
     "@google-cloud/storage": "^7.9.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
