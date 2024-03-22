@@ -85,11 +85,12 @@ export class Prospectus {
         const response = await this.searchClient.search(request, {
             autoPaginate: false,
         });
-        const results = [response];
 
-        console.log(results);
-
-        return results;
+        const summaryObject = response[2].summary;
+        const summary: string = summaryObject?.summaryText ?? '';
+        console.log(summary);
+        
+        return summary;
     }
 
     private getMetadata(gcsPath: string, ticker: string) {
