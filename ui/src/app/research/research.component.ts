@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
-import { Observable } from 'rxjs';
+import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticker-autocomplete.component';
 
 @Component({
   selector: 'app-research',
@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
     MatIconModule,
     MatTooltipModule,    
     MatTabsModule,
+    TickerAutocompleteComponent
   ],
   templateUrl: './research.component.html',
   styleUrl: './research.component.scss',
@@ -34,11 +35,8 @@ export class ResearchComponent {
   ticker?: string = undefined;
   searchQuery?: string = undefined;
   summary?: string = undefined;
-  tickers?: Observable<string[]> = undefined;
 
-  constructor(private genWealthClient: GenWealthServiceClient) {
-    this.tickers = this.genWealthClient.getTickers();
-  }
+  constructor(private genWealthClient: GenWealthServiceClient) {}
 
   uploadProspectus(event: any) {
     const file = event.target.files[0];
@@ -72,5 +70,9 @@ export class ResearchComponent {
         console.log('error', error);
       }
     })
+  }
+
+  setTicker(ticker: string) {
+    this.ticker = ticker;
   }
 }

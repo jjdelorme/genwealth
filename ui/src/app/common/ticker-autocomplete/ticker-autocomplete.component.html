@@ -1,0 +1,15 @@
+<form class="ticker-autocomplete-form">
+    <mat-form-field class="ticker-full-width">
+    <mat-label>Ticker</mat-label>
+    <input type="text"
+            aria-label="Ticker"
+            matInput
+            [formControl]="tickerControl"
+            [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTickerSelected($event.option.value)">
+        @for (ticker of filteredTickers | async; track ticker) {
+        <mat-option [value]="ticker">{{ticker}}</mat-option>
+        }
+    </mat-autocomplete>
+    </mat-form-field>
+</form>
