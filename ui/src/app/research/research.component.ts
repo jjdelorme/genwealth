@@ -34,6 +34,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class ResearchComponent {
   searching: boolean = false;
+  uploading: boolean = false;
   uploaded: boolean = false;
   uploadTicker?: string = undefined;
   searchTicker?: string = undefined;
@@ -46,12 +47,16 @@ export class ResearchComponent {
     const file = event.target.files[0];
 
     if (this.uploadTicker && file) {
+      this.uploading = true;
+      
       this.genWealthClient.uploadProspectus(this.uploadTicker, file).subscribe({
         next: () => {
           this.uploaded = true;
+          this.uploading = false;
         },
         error: (error) => {
           console.log('error', error);
+          this.uploading = false;
         }
       });
     }

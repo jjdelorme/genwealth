@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, map} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
@@ -29,7 +29,10 @@ export class TickerAutocompleteComponent {
   tickers?: Observable<string[]>;
 
   constructor(private genWealthClient: GenWealthServiceClient) {
-    this.tickers = this.genWealthClient.getTickers();
+    this.tickers = this.genWealthClient.getTickers().pipe(
+      // sort tickers alphabetically
+      map((tickers) => tickers.sort())
+    )
   }
 
   @Output()
