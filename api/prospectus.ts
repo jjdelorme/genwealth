@@ -59,23 +59,23 @@ export class Prospectus {
         );
 
         const request = {
-        pageSize: 5,
-        query: query,
-        contentSearchSpec: {
-            summarySpec: {
-                summaryResultCount: 5,
-                ignoreAdversarialQuery: true,
-                includeCitations: true
+            pageSize: 5,
+            query: query,
+            contentSearchSpec: {
+                summarySpec: {
+                    summaryResultCount: 5,
+                    ignoreAdversarialQuery: true,
+                    includeCitations: true
+                },
+                snippetSpec: {
+                    returnSnippet: true
+                },
+                extractiveContentSpec: {
+                    maxExtractiveAnswerCount: 1
+                }
             },
-            snippetSpec: {
-                returnSnippet: true
-            },
-            extractiveContentSpec: {
-                maxExtractiveAnswerCount: 1
-            }
-        },
-        filter: `ticker: ANY(\"${ticker}\")`,
-        servingConfig: searchServingConfig,
+            filter: `ticker: ANY(\"${ticker}\")`,
+            servingConfig: searchServingConfig,
         };
             
         // Perform search request
