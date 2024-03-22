@@ -5,15 +5,15 @@
             <div class="upload-container">
                 <p>Provide a ticker symbol and select a prospectus to upload.</p>
                 @if (uploaded) {
-                    <p>Successfully uploaded prospectus for [{{ticker}}].</p>
+                    <p>Successfully uploaded prospectus for [{{uploadTicker}}].</p>
                     <button mat-raised-button color="primary" (click)="reset()">Upload Another</button>
                 } @else {
                     <mat-form-field class="ticker" >
-                        <input matInput [(ngModel)]="ticker" placeholder="Ticker">
+                        <input matInput [(ngModel)]="uploadTicker" placeholder="Ticker">
                     </mat-form-field>
                     <input type="file" class="file-input" (change)="uploadProspectus($event)" #fileUpload>
                     <button mat-mini-fab color="primary" class="upload-button" 
-                        [disabled]="!ticker" (click)="fileUpload.click()">
+                        [disabled]="!uploadTicker" (click)="fileUpload.click()">
                         <mat-icon>attach_file</mat-icon>
                     </button>
                 }
@@ -28,23 +28,30 @@
                 </gen-search-widget>
             </div>            
             <div class="search-container">
-                <app-ticker-autocomplete (tickerSelected)="setTicker($event)"></app-ticker-autocomplete>
+                <app-ticker-autocomplete (tickerSelected)="setSearchTicker($event)"></app-ticker-autocomplete>
                 <mat-form-field class="search-field">
                     <mat-label>Search Query</mat-label>
-                    <textarea cdkTextareaAutosize matInput [(ngModel)]="searchQuery" placeholder="Search"></textarea>
+                    <textarea cdkTextareaAutosize matInput [(ngModel)]="searchQuery" 
+                        (keydown.enter)="search()" 
+                        [disabled]="searching"
+                        placeholder="Search"></textarea>
                 </mat-form-field>
             </div>
+            @if (searching) {
+                <mat-spinner class="search-spinner"></mat-spinner>
+            }
+            @else if(summary) {
+                <div class="summary-results">
+                    {{summary}}
+                </div>
+            }   
             <button mat-raised-button color="primary" class="search-button"
-                 [disabled]="!ticker || !searchQuery" 
+                 [disabled]="!searchTicker || !searchQuery" 
                 (click)="search()">Search</button>
                 <!-- Element that opens the widget on click. It does not have to be an input -->
             <button class="mdc-button mat-mdc-raised-button vertex-button" id="searchWidgetTrigger">
                 Use Widget
             </button>
-
-            <div class="summary-results">
-                {{summary}}
-            </div>
         </mat-tab>
     </mat-tab-group>        
 </mat-card>

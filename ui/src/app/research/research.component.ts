@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticker-autocomplete.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-research',
@@ -24,6 +25,7 @@ import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticke
     MatIconModule,
     MatTooltipModule,    
     MatTabsModule,
+    MatProgressSpinnerModule,
     TickerAutocompleteComponent
   ],
   templateUrl: './research.component.html',
@@ -31,8 +33,10 @@ import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticke
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class ResearchComponent {
+  searching: boolean = false;
   uploaded: boolean = false;
-  ticker?: string = undefined;
+  uploadTicker?: string = undefined;
+  searchTicker?: string = undefined;
   searchQuery?: string = undefined;
   summary?: string = undefined;
 
@@ -41,8 +45,8 @@ export class ResearchComponent {
   uploadProspectus(event: any) {
     const file = event.target.files[0];
 
-    if (this.ticker && file) {
-      this.genWealthClient.uploadProspectus(this.ticker, file).subscribe({
+    if (this.uploadTicker && file) {
+      this.genWealthClient.uploadProspectus(this.uploadTicker, file).subscribe({
         next: () => {
           this.uploaded = true;
         },
@@ -55,24 +59,29 @@ export class ResearchComponent {
 
   reset() {
     this.uploaded = false;
-    this.ticker = undefined;
+    this.uploadTicker = undefined;
   }
 
   search() {
-    if (!this.ticker || !this.searchQuery)
+    if (!this.searchTicker || !this.searchQuery)
       return;
 
-    this.genWealthClient.searchProspectus(this.ticker, this.searchQuery!).subscribe({
+    this.searching = true;
+    this.summary = undefined;
+
+    this.genWealthClient.searchProspectus(this.searchTicker, this.searchQuery!).subscribe({
       next: (response) => {
         this.summary = response;
+        this.searching = false;
       },
       error: (error) => {
         console.log('error', error);
+        this.searching = false;
       }
     })
   }
 
-  setTicker(ticker: string) {
-    this.ticker = ticker;
+  setSearchTicker(ticker: string) {
+    this.searchTicker = ticker;
   }
 }

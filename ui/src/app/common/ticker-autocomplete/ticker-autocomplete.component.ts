@@ -1,12 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { GenWealthServiceClient } from '../../services/genwealth-api';
+import {GenWealthServiceClient} from '../../services/genwealth-api';
 
 /**
  * @title Ticker symbol autocomplete
@@ -20,42 +19,23 @@ import { GenWealthServiceClient } from '../../services/genwealth-api';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatAutocompleteModule,
+    MatSelectModule,
     ReactiveFormsModule,
     AsyncPipe,
   ],
 })
-export class TickerAutocompleteComponent implements OnInit {
+export class TickerAutocompleteComponent {
   tickerControl = new FormControl('');
-  tickers?: string[];
-  filteredTickers?: Observable<string[]>;
+  tickers?: Observable<string[]>;
 
-  constructor(private genWealthClient: GenWealthServiceClient) {}
+  constructor(private genWealthClient: GenWealthServiceClient) {
+    this.tickers = this.genWealthClient.getTickers();
+  }
 
   @Output()
   tickerSelected = new EventEmitter<string>();
 
   onTickerSelected(ticker: string) {
     this.tickerSelected.emit(ticker);
-  }
-
-  ngOnInit() {
-    this.genWealthClient.getTickers().subscribe((tickers) => {
-      this.tickers = tickers;
-    });
-
-    this.filteredTickers = this.tickerControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
-  }
-
-  private _filter(value: string): string[] {
-    if (!this.tickers)
-      return [];
-
-    const filterValue = value.toUpperCase();
-
-    return this.tickers.filter(ticker => ticker.toUpperCase().includes(filterValue));
   }
 }
