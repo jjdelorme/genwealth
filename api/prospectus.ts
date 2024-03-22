@@ -95,7 +95,7 @@ export class Prospectus {
     }
 
     async getTickers(): Promise<string[]> {
-        const query = 'SELECT DISTINCT(ticker) FROM investments';
+        const query = 'SELECT DISTINCT(ticker) FROM langchain_vector_store';
 
         try
         {
