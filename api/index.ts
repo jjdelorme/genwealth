@@ -8,6 +8,7 @@ import { Investments } from './investments';
 import { Prospects } from './prospects';
 import { Chatbot, ChatRequest } from './chatbot';
 import { Prospectus } from './prospectus';
+import { ProspectusRag } from './prospectus-rag';
 
 //
 // Create the express app
@@ -18,6 +19,7 @@ const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
 const prospectus = new Prospectus(db);
+const prospectusRag = new ProspectusRag(db);
 const chatbot = new Chatbot(db);
 const staticPath = join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
 
@@ -135,6 +137,19 @@ app.get('/api/prospectus/search', async (req, res) => {
     const ticker = req.query.ticker as string;
     const query = req.query.query as string;
     const response = await prospectus.search(query, ticker);
+    res.json(response);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+app.get('/api/prospectus/rag-search', async (req, res) => {
+  try {
+    const ticker = req.query.ticker as string;
+    const query = req.query.query as string;
+    const response = await prospectusRag.search(query, ticker);
     res.json(response);
   }
   catch (err) {
