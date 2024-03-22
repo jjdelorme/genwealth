@@ -1,6 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 import { SearchServiceClient } from '@google-cloud/discoveryengine';
-import gcpMetadata  from 'gcp-metadata';
+import { MetadataAccessor } from 'gcp-metadata';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from './database';
 
@@ -39,10 +39,7 @@ export class Prospectus {
     }
 
     async search(query: string, ticker: string) {
-        const projectId = process.env['PROJECT_ID'] ?? await gcpMetadata.project('project-id');
-        if (!projectId) {
-            throw new Error('PROJECT_ID environment variable not set');
-        }
+        const projectId = process.env['PROJECT_ID'] ?? await this.searchClient.getProjectId();
 
         const dataStoreId = process.env['DATASTORE_ID'];
         if (!dataStoreId) {
