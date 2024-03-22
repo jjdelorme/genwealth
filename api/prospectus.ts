@@ -1,5 +1,5 @@
 import { Storage } from '@google-cloud/storage';
-import { SearchServiceClient } from '@google-cloud/discoveryengine';
+import { SearchServiceClient, DocumentServiceClient, protos } from '@google-cloud/discoveryengine';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from './database';
 
@@ -8,54 +8,39 @@ import { Database } from './database';
 export class Prospectus {
     private readonly storageClient: Storage;
     private readonly searchClient: SearchServiceClient;
+    private readonly bucketName: string;
+    private readonly metadataBucketName: string;
 
     constructor(private db: Database) { 
         this.storageClient = new Storage();
         this.searchClient = new SearchServiceClient();
+
+        this.bucketName = process.env['PROSPECTUS_BUCKET'] ?? '';
+        if (this.bucketName === '')
+            throw new Error("PROSPECTUS_BUCKET environment variable not set");
+       
+        this.metadataBucketName = this.bucketName + "-metadata";
     }
 
     /** Upload a prospectus and generate the metadata for indexing in Vertex Search & Conversation.
      */
     async upload(buffer: Buffer, filename: string, ticker: string) {
-        const bucketName = process.env['PROSPECTUS_BUCKET'];
-        if (!bucketName)
-            throw new Error("PROSPECTUS_BUCKET environment variable not set");
-       
         ticker = ticker.toUpperCase();
 
-        const prospectusBlob = this.storageClient.bucket(bucketName).file(filename);
+        const prospectusBlob = this.storageClient.bucket(this.bucketName).file(filename);
         await prospectusBlob.save(buffer);
 
         const metadata = this.getMetadata(prospectusBlob.cloudStorageURI.href, ticker);
-        const metadataBucketName = bucketName + "-metadata";
-        const metadataBlob = this.storageClient.bucket(metadataBucketName).file(`${ticker}.jsonl`);
+        const metadataBlob = this.storageClient.bucket(this.metadataBucketName).file(`${ticker}.jsonl`);
         await metadataBlob.save(JSON.stringify(metadata));
 
-        console.log(`Uploaded ${filename} to ${bucketName}`);
+        console.log(`Uploaded ${filename} to ${this.bucketName}`);
 
-        // TODO: Kick off the indexing
-
+        this.importDocument(metadataBlob.cloudStorageURI.href);
     }
 
     async search(query: string, ticker: string) {
-        const projectId = process.env['PROJECT_ID'] ?? await this.searchClient.getProjectId();
-
-        console.log('search using project id', projectId );
-
-        const dataStoreId = process.env['DATASTORE_ID'];
-        if (!dataStoreId) {
-            throw new Error('DATASTORE_ID environment variable not set');
-        }
-
         ticker = ticker.toUpperCase();
-
-        const searchServingConfig = this.searchClient.projectLocationCollectionDataStoreServingConfigPath(
-            projectId,
-            "global",
-            "default_collection",
-            dataStoreId,
-            "default_search"
-        );
 
         const request = {
             pageSize: 5,
@@ -77,7 +62,7 @@ export class Prospectus {
                 }
             },
             filter: `ticker: ANY(\"${ticker}\")`,
-            servingConfig: searchServingConfig,
+            servingConfig: await this.getParent(),
         };
             
         // Perform search request
@@ -113,5 +98,53 @@ export class Prospectus {
             structData: { ticker: ticker },
             content: { mimeType: "application/pdf", uri: gcsPath }
         };
+    }
+
+    private async importDocument(gsUri: string) {
+        const docsClient = new DocumentServiceClient();
+
+        const importMode = protos.google.cloud.discoveryengine.v1.ImportDocumentsRequest.ReconciliationMode.INCREMENTAL
+
+        const projectId = process.env['PROJECT_ID'] ?? await this.searchClient.getProjectId();
+
+        const dataStoreId = process.env['DATASTORE_ID'];
+        if (!dataStoreId) {
+            throw new Error('DATASTORE_ID environment variable not set');
+        }
+
+        const parent = `projects/${projectId}/locations/global/dataStores/${dataStoreId}/branches/default_branch`;
+
+        const request = {
+            parent: parent,
+            gcsSource: {
+                dataSchema: "document",
+                inputUris: [gsUri]
+            },
+            reconciliationMode: importMode
+        };
+
+        await docsClient.importDocuments(request);
+        console.log('imported', gsUri);
+    }
+
+    private async getParent() {
+        const projectId = process.env['PROJECT_ID'] ?? await this.searchClient.getProjectId();
+
+        console.log('search using project id', projectId );
+
+        const dataStoreId = process.env['DATASTORE_ID'];
+        if (!dataStoreId) {
+            throw new Error('DATASTORE_ID environment variable not set');
+        }
+
+        const searchServingConfig = this.searchClient.projectLocationCollectionDataStoreServingConfigPath(
+            projectId,
+            "global",
+            "default_collection",
+            dataStoreId,
+            "default_search"
+        );
+        
+        return searchServingConfig;
     }
 }
