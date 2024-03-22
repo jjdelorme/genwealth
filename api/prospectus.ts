@@ -21,11 +21,14 @@ export class Prospectus {
         if (!bucketName)
             throw new Error("PROSPECTUS_BUCKET environment variable not set");
        
+        ticker = ticker.toUpperCase();
+
         const prospectusBlob = this.storageClient.bucket(bucketName).file(filename);
         await prospectusBlob.save(buffer);
 
-        const metadata = this.getMetadata(prospectusBlob.cloudStorageURI.toString(), ticker);
-        const metadataBlob = this.storageClient.bucket(bucketName).file(`${ticker}.jsonl`);
+        const metadata = this.getMetadata(prospectusBlob.cloudStorageURI.href, ticker);
+        const metadataBucketName = bucketName + "-metadata";
+        const metadataBlob = this.storageClient.bucket(metadataBucketName).file(`${ticker}.jsonl`);
         await metadataBlob.save(JSON.stringify(metadata));
 
         console.log(`Uploaded ${filename} to ${bucketName}`);
@@ -34,7 +37,7 @@ export class Prospectus {
 
     }
 
-    async search(query: string, ticker?: string) {
+    async search(query: string, ticker: string) {
         const projectId = process.env['PROJECT_ID'] ?? await gcpMetadata.project('project-id');
         if (!projectId) {
             throw new Error('PROJECT_ID environment variable not set');
@@ -45,43 +48,45 @@ export class Prospectus {
             throw new Error('DATASTORE_ID environment variable not set');
         }
 
+        ticker = ticker.toUpperCase();
+
         const searchServingConfig = this.searchClient.projectLocationCollectionDataStoreServingConfigPath(
             projectId,
             "global",
             "default_collection",
             dataStoreId,
             "default_search"
-          );
+        );
 
-          const request = {
-            pageSize: 5,
-            query: query,
-            contentSearchSpec: {
-                summarySpec: {
-                    summaryResultCount: 5,
-                    ignoreAdversarialQuery: true,
-                    includeCitations: true
-                },
-                snippetSpec: {
-                    returnSnippet: true
-                },
-                extractiveContentSpec: {
-                    maxExtractiveAnswerCount: 1
-                }
+        const request = {
+        pageSize: 5,
+        query: query,
+        contentSearchSpec: {
+            summarySpec: {
+                summaryResultCount: 5,
+                ignoreAdversarialQuery: true,
+                includeCitations: true
             },
-            filter: `ticker: ANY(\"${ticker}\")`,
-            servingConfig: searchServingConfig,
-          };
-               
-          // Perform search request
-          const response = await this.searchClient.search(request, {
-            autoPaginate: false,
-          });
-          const results = response;
-        
-          for (const result of results) {
-            console.log(result);
-          }        
+            snippetSpec: {
+                returnSnippet: true
+            },
+            extractiveContentSpec: {
+                maxExtractiveAnswerCount: 1
+            }
+        },
+        filter: `ticker: ANY(\"${ticker}\")`,
+        servingConfig: searchServingConfig,
+        };
+            
+        // Perform search request
+        const response = await this.searchClient.search(request, {
+        autoPaginate: false,
+        });
+        const results = response;
+    
+        for (const result of results) {
+        console.log(result);
+        }        
 
     }
 
