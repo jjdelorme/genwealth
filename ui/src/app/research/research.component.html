@@ -20,6 +20,12 @@
             </div>
         </mat-tab>        
         <mat-tab label="Search">
+            <ol>
+                @for (ticker of tickers | async; track ticker) {
+                    <li>{{ticker}}</li>
+                }
+            </ol>
+
             {{summary}}
             <div>
                 <input matInput [(ngModel)]="ticker" placeholder="Search">

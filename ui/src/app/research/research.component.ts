@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { GenWealthServiceClient } from '../services/genwealth-api';
 import { CommonModule } from '@angular/common';
+import { GenWealthServiceClient } from '../services/genwealth-api';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -9,9 +9,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-prospectus',
+  selector: 'app-research',
   standalone: true,
   imports: [
     CommonModule, 
@@ -24,17 +25,20 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTooltipModule,    
     MatTabsModule,
   ],
-  templateUrl: './prospectus.component.html',
-  styleUrl: './prospectus.component.scss',
+  templateUrl: './research.component.html',
+  styleUrl: './research.component.scss',
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
-export class ProspectusComponent {
+export class ResearchComponent {
   uploaded: boolean = false;
   ticker?: string = undefined;
   searchQuery?: string = undefined;
   summary?: string = undefined;
+  tickers?: Observable<string[]> = undefined;
 
-  constructor(private genWealthClient: GenWealthServiceClient) {}
+  constructor(private genWealthClient: GenWealthServiceClient) {
+    this.tickers = this.genWealthClient.getTickers();
+  }
 
   uploadProspectus(event: any) {
     const file = event.target.files[0];

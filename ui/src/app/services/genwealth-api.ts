@@ -118,4 +118,8 @@ export class GenWealthServiceClient implements GenWealthService {
             params: { ticker: ticker, query: query }
         });
     }
+
+    getTickers(): Observable<string[]> {
+        return this.http.get<string[]>(`${this.baseUrl}/prospectus/tickers`);
+    }    
 }
