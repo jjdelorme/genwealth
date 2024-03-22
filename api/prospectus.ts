@@ -100,7 +100,7 @@ export class Prospectus {
         try
         {
             const rows = await this.db.query(query);
-            return rows;
+            return rows.map((row) => row.ticker);
         }
         catch (error)
         {
