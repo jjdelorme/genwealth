@@ -2,6 +2,7 @@ import { Storage } from '@google-cloud/storage';
 import { SearchServiceClient } from '@google-cloud/discoveryengine';
 import gcpMetadata  from 'gcp-metadata';
 import { v4 as uuidv4 } from 'uuid';
+import { Database } from './database';
 
 /** 
  */
@@ -9,7 +10,7 @@ export class Prospectus {
     private readonly storageClient: Storage;
     private readonly searchClient: SearchServiceClient;
 
-    constructor() {
+    constructor(private db: Database) { 
         this.storageClient = new Storage();
         this.searchClient = new SearchServiceClient();
     }
@@ -92,6 +93,21 @@ export class Prospectus {
         
         return summary;
     }
+
+    async getTickers(): Promise<string[]> {
+        const query = 'SELECT DISTINCT(ticker) FROM investments';
+
+        try
+        {
+            const rows = await this.db.query(query);
+            return rows;
+        }
+        catch (error)
+        {
+            throw new Error(`getTickers errored with query: ${query}.\nError: ${(error as Error)?.message}`);
+        }
+    }
+
 
     private getMetadata(gcsPath: string, ticker: string) {
         return {

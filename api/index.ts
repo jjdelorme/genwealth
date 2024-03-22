@@ -17,7 +17,7 @@ const upload = multer();
 const db: Database = new Database();
 const investments = new Investments(db);
 const prospects = new Prospects(db);
-const prospectus = new Prospectus();
+const prospectus = new Prospectus(db);
 const chatbot = new Chatbot(db);
 const staticPath = join(__dirname, 'ui/dist/genwealth-advisor-ui/browser');
 
@@ -135,6 +135,17 @@ app.get('/api/prospectus/search', async (req, res) => {
     const ticker = req.query.ticker as string;
     const query = req.query.query as string;
     const response = await prospectus.search(query, ticker);
+    res.json(response);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+app.get('/api/prospectus/tickers', async (req, res) => {
+  try {
+    const response = await prospectus.getTickers();
     res.json(response);
   }
   catch (err) {
