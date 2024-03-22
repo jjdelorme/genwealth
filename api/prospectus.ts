@@ -65,10 +65,13 @@ export class Prospectus {
                 summarySpec: {
                     summaryResultCount: 5,
                     ignoreAdversarialQuery: true,
-                    includeCitations: true
+                    includeCitations: false,
+                    modelSpec: {
+                        version: 'preview',
+                        },                    
                 },
                 snippetSpec: {
-                    returnSnippet: true
+                    returnSnippet: false
                 },
                 extractiveContentSpec: {
                     maxExtractiveAnswerCount: 1
@@ -80,14 +83,13 @@ export class Prospectus {
             
         // Perform search request
         const response = await this.searchClient.search(request, {
-        autoPaginate: false,
+            autoPaginate: false,
         });
-        const results = response;
-    
-        for (const result of results) {
-        console.log(result);
-        }        
+        const results = [response];
 
+        console.log(results);
+
+        return results;
     }
 
     private getMetadata(gcsPath: string, ticker: string) {
