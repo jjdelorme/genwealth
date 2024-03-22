@@ -47,6 +47,7 @@ export class ChatRequest {
     disclaimer?: string;
 }
 
+
 export interface GenWealthService {
     searchInvestments(terms: string[]): Observable<QueryResponse<Investment>>;
     semanticSearchInvestments(prompt: string): Observable<QueryResponse<Investment>>;
@@ -57,6 +58,7 @@ export interface GenWealthService {
         maxAge?: number): Observable<QueryResponse<Prospect>>;
     chat(request: ChatRequest): Observable<ChatResponse>; 
     uploadProspectus(ticker: string, file: File): Observable<void>;
+    searchProspectus(ticker: string, query: string): Observable<string>;
 }
 
 @Injectable({
@@ -109,5 +111,11 @@ export class GenWealthServiceClient implements GenWealthService {
         formData.append('ticker', ticker);
         formData.append('file', file);
         return this.http.post<void>(`${this.baseUrl}/prospectus/upload`, formData);
+    }
+
+    searchProspectus(ticker: string, query: string): Observable<string> {
+        return this.http.get<string>(`${this.baseUrl}/prospectus/search`, {
+            params: { ticker: ticker, query: query }
+        });
     }
 }

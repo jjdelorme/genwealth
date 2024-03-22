@@ -20,18 +20,25 @@
             </div>
         </mat-tab>        
         <mat-tab label="Search">
+            {{summary}}
             <div>
-                    <!-- Search widget element is not visible by default -->
-                    <gen-search-widget
-                        configId="f2654e4e-c1c2-4a87-9a4a-01d09a701c9b"
-                        triggerId="searchWidgetTrigger">
-                    </gen-search-widget>
+                <input matInput [(ngModel)]="ticker" placeholder="Search">
+                <input matInput [(ngModel)]="searchQuery" placeholder="Search">
+                <button mat-raised-button color="primary" [disabled]="!ticker || !searchQuery" 
+                    (click)="search()">Search</button>
+            </div>
+            <div>
+                <!-- Search widget element is not visible by default -->
+                <gen-search-widget
+                    configId="8cb387aa-cc8b-4c1b-984a-0ea32285eebc"
+                    triggerId="searchWidgetTrigger">
+                </gen-search-widget>
 
-                    <!-- Element that opens the widget on click. It does not have to be an input -->
-                    <button class="mdc-button mat-mdc-raised-button vertex-button" id="searchWidgetTrigger">
-                        Use Widget
-                    </button>
-                </div>
+                <!-- Element that opens the widget on click. It does not have to be an input -->
+                <button class="mdc-button mat-mdc-raised-button vertex-button" id="searchWidgetTrigger">
+                    Use Widget
+                </button>
+            </div>
         </mat-tab>
     </mat-tab-group>        
 </mat-card>

@@ -31,6 +31,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 export class ProspectusComponent {
   uploaded: boolean = false;
   ticker?: string = undefined;
+  searchQuery?: string = undefined;
+  summary?: string = undefined;
 
   constructor(private genWealthClient: GenWealthServiceClient) {}
 
@@ -52,5 +54,19 @@ export class ProspectusComponent {
   reset() {
     this.uploaded = false;
     this.ticker = undefined;
+  }
+
+  search() {
+    if (!this.ticker || !this.searchQuery)
+      return;
+
+    this.genWealthClient.searchProspectus(this.ticker, this.searchQuery!).subscribe({
+      next: (response) => {
+        this.summary = response;
+      },
+      error: (error) => {
+        console.log('error', error);
+      }
+    })
   }
 }
