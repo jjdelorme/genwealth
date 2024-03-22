@@ -1,6 +1,5 @@
 import { Storage } from '@google-cloud/storage';
 import { SearchServiceClient } from '@google-cloud/discoveryengine';
-import { MetadataAccessor } from 'gcp-metadata';
 import { v4 as uuidv4 } from 'uuid';
 import { Database } from './database';
 
@@ -40,6 +39,8 @@ export class Prospectus {
 
     async search(query: string, ticker: string) {
         const projectId = process.env['PROJECT_ID'] ?? await this.searchClient.getProjectId();
+
+        console.log('search using project id', projectId );
 
         const dataStoreId = process.env['DATASTORE_ID'];
         if (!dataStoreId) {
