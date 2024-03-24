@@ -34,7 +34,7 @@ export class ProspectusRag {
 
     private async generateContent(userPrompt: string, context: string) {
         const aiRole = 'AI Role: You are a professional financial analyst who is tasked with answering questions about filings.  The context provided are excerpts from an SEC filing.';
-        const prompt = `${aiRole}\n\nAnswer truthfully and only if you know the answer for the following question: ${userPrompt}\n\n<context>${context}\n</context>`;
+        const prompt = `${aiRole}\n\nAnswer truthfully and only if you can find the answer for the following question in the context provided. \n\n<context>${context}\n</context>\n\nQuestion: ${userPrompt}`;
     
         // Initialize Vertex with your Cloud project and location
         const vertex_ai = new VertexAI({project: 'genwealth-demo-417213', location: 'us-central1'});
@@ -56,7 +56,7 @@ export class ProspectusRag {
 
         const streamingResp = await generativeModel.generateContentStream(request);
 
-        var response = JSON.stringify(await streamingResp.response);
+        var response = {prompt: prompt, results: JSON.stringify(await streamingResp.response)};
 
         return response;
     };
