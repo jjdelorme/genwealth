@@ -26,7 +26,7 @@ export const camelCaseRows = (rows: any[]) => _.map(rows, (row) =>
  * @param str String to be escaped
  * @returns escaped string
  */
-export const safeString = (str: string) => str.replace(/'/g, "''");
+export const safeString = (str: string) => str?.replace(/'/g, "''") ?? '';
 
 
 export class Database {
