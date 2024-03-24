@@ -11,6 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticker-autocomplete.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TextToHtmlPipe } from '../common/text-to-html.pipe';
 
 @Component({
   selector: 'app-research',
@@ -26,7 +27,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatTooltipModule,    
     MatTabsModule,
     MatProgressSpinnerModule,
-    TickerAutocompleteComponent
+    TickerAutocompleteComponent,
+    TextToHtmlPipe
   ],
   templateUrl: './research.component.html',
   styleUrl: './research.component.scss',
@@ -40,6 +42,9 @@ export class ResearchComponent {
   searchTicker?: string = undefined;
   searchQuery?: string = undefined;
   summary?: string = undefined;
+  ragSummary? : string = undefined;
+  ragPrompt?: string = undefined;
+  ragSearching = false;  
 
   constructor(private genWealthClient: GenWealthServiceClient) {}
 
@@ -83,7 +88,19 @@ export class ResearchComponent {
         console.log('error', error);
         this.searching = false;
       }
-    })
+    });
+
+    this.genWealthClient.ragSearchProspectus(this.searchTicker, this.searchQuery!).subscribe({
+      next: (response) => {
+        this.ragSummary = response.data ? response.data[0] : undefined;
+        this.ragPrompt = response?.query;
+        this.ragSearching = false;
+      },
+      error: (error) => {
+        console.log('error', error);
+        this.ragSearching = false;
+      }
+    });
   }
 
   setSearchTicker(ticker: string) {
