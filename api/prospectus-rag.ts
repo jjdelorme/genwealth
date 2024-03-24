@@ -24,6 +24,10 @@ export class ProspectusRag {
         try
         {
             const rows = await this.db.query(query);
+
+            if (rows.length == 0)
+                throw new Error(`No data for ticker: ${ticker}`);
+
             return rows.map((row) => row.content);
         }
         catch (error)
