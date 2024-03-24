@@ -60,7 +60,11 @@ export class ProspectusRag {
 
         const streamingResp = await generativeModel.generateContentStream(request);
 
-        var response = {prompt: prompt, results: JSON.stringify(await streamingResp.response)};
+        const text = (await streamingResp.response).candidates[0].content.parts[0].text;
+
+        var response = {query: prompt, data: text};
+
+        console.log('response', text);
 
         return response;
     };
