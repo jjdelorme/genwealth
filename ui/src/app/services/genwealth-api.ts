@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BASE_URL } from '../app.config';
 
 export interface QueryResponse<T> {
@@ -115,6 +115,12 @@ export class GenWealthServiceClient implements GenWealthService {
 
     searchProspectus(ticker: string, query: string): Observable<string> {
         return this.http.get<string>(`${this.baseUrl}/prospectus/search`, {
+            params: { ticker: ticker, query: query }
+        });
+    }
+
+    ragSearchProspectus(ticker: string, query: string): Observable<QueryResponse<string>> {
+        return this.http.get<QueryResponse<string>>(`${this.baseUrl}/prospectus/rag-search`, {
             params: { ticker: ticker, query: query }
         });
     }
