@@ -62,7 +62,7 @@ export class ProspectusRag {
 
         const text = (await streamingResp.response).candidates[0].content.parts[0].text;
 
-        var response = {query: prompt, data: text};
+        var response = {query: prompt, data: [text]};
 
         console.log('response', text);
 
