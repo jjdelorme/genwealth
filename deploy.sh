@@ -1,3 +1,6 @@
+# Load env variables
+source ./env.sh
+
 REGION=$(gcloud config get-value run/region)
 if [ -z "$REGION" ]; then
   echo "REGION is not set. Please set the gcloud run/region."

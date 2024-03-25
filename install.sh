@@ -4,23 +4,8 @@
 ### NOTE: you need the latest version of gcloud (i.e. 468 or later) to deploy this
 ###
 
-#
-# Prerequesites:
-#
-
-# Clone the repository:
-# git clone http://github.com/jjdelorme/genwealth.git
-
-# Fill in the following variables:
-PGHOST=x.x.x.x
-PGPORT=5432
-PGDATABASE=ragdemos
-PGUSER=postgres
-PGPASSWORD=xxxx
-VPC_NETWORK=demo-vpc
-VPC_SUBNET=$VPC_NETWORK # It’s the same name right now
-DATASTORE_ID=xxxx # Datastore ID used by Vertex S&C
-PROSPECTUS_BUCKET=xxxx # GCS Bucket for storing pro
+# Load env variables
+souce ./env.sh
 
 PROJECT_ID=$(gcloud config get-value project)
 if [ -z "$PROJECT_ID" ]; then
