@@ -114,4 +114,8 @@ export class ResearchComponent {
   setSearchTicker(ticker: string) {
     this.searchTicker = ticker;
   }
+
+  getSuggestion() {
+    this.searchQuery = "How will the proceeds be used?";
+  }
 }
