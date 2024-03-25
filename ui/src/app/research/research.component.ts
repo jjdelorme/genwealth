@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticker-autocomplete.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextToHtmlPipe } from '../common/text-to-html.pipe';
+import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
 
 @Component({
   selector: 'app-research',
@@ -28,7 +29,8 @@ import { TextToHtmlPipe } from '../common/text-to-html.pipe';
     MatTabsModule,
     MatProgressSpinnerModule,
     TickerAutocompleteComponent,
-    TextToHtmlPipe
+    TextToHtmlPipe,
+    SqlStatementComponent
   ],
   templateUrl: './research.component.html',
   styleUrl: './research.component.scss',

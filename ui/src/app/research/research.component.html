@@ -35,6 +35,7 @@
                     }
                     @else {                                        
                         <mat-card-title>RAG Results</mat-card-title>
+                        <app-sql-statement [query]="ragPrompt">See Prompt</app-sql-statement>
                         <div class="summary-results" [innerHTML]="ragSummary | textToHtml"></div>
                     }
                 </mat-card>
