@@ -66,7 +66,7 @@ export class InvestmentsComponent {
   getSuggestion() {
     switch (this.searchType) {
       case SearchType.KEYWORD:
-        return "hedge, high inflation";
+        return "high inflation, hedge";
       case SearchType.SEMANTIC:
         return "hedge against high inflation";
       default:
