@@ -38,7 +38,7 @@
 }
 
 .search-spinner {
-    position: absolute;
+    margin-bottom: 25px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -53,5 +53,14 @@
   
 .results-container {
   display: flex;
-  margin: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.results-card {
+  width: 50%;;
+}
+
+.results-spacer {
+  width:15px;
 }

@@ -35,7 +35,9 @@ import { TextToHtmlPipe } from '../common/text-to-html.pipe';
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
 export class ResearchComponent {
+  showResults: boolean = false;
   searching: boolean = false;
+  ragSearching: boolean = false;  
   uploading: boolean = false;
   uploaded: boolean = false;
   uploadTicker?: string = undefined;
@@ -44,9 +46,9 @@ export class ResearchComponent {
   summary?: string = undefined;
   ragSummary? : string = undefined;
   ragPrompt?: string = undefined;
-  ragSearching = false;  
 
   constructor(private genWealthClient: GenWealthServiceClient) {}
+
 
   uploadProspectus(event: any) {
     const file = event.target.files[0];
@@ -76,8 +78,12 @@ export class ResearchComponent {
     if (!this.searchTicker || !this.searchQuery)
       return;
 
+    this.showResults = true;
     this.searching = true;
+    this.ragSearching = true;
+    
     this.summary = undefined;
+    this.ragSummary = undefined;
 
     this.genWealthClient.searchProspectus(this.searchTicker, this.searchQuery!).subscribe({
       next: (response) => {

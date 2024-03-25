@@ -19,17 +19,26 @@
                         placeholder="Search"></textarea>
                 </mat-form-field>
             </div>
-            @if (searching) {
-                <mat-spinner class="search-spinner"></mat-spinner>
-            }
-            @else if(summary) {
-                <div class="results-container">
-                    <div class="summary-results" [innerHTML]="summary | textToHtml">
-                    </div>
-                    <div class="summary-results" [innerHTML]="ragSummary | textToHtml">
-                    </div>
-                </div>
-            }   
+            <div class="results-container" *ngIf="showResults">
+                <mat-card class="results-card">
+                    @if (searching) {
+                        <mat-spinner class="search-spinner"></mat-spinner>
+                    } @else {                    
+                        <mat-card-title>Vertex Search & Conversation</mat-card-title>
+                        <div class="summary-results" [innerHTML]="summary | textToHtml"></div>
+                    }
+                </mat-card>
+                <div class="results-spacer"></div>
+                <mat-card class="results-card">
+                    @if (ragSearching) {
+                        <mat-spinner class="search-spinner"></mat-spinner>
+                    }
+                    @else {                                        
+                        <mat-card-title>RAG Results</mat-card-title>
+                        <div class="summary-results" [innerHTML]="ragSummary | textToHtml"></div>
+                    }
+                </mat-card>
+            </div>
             <button mat-raised-button color="primary" class="search-button"
                  [disabled]="!searchTicker || !searchQuery || searching" 
                 (click)="search()">Search</button>
