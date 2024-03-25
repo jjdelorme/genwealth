@@ -50,5 +50,19 @@ npm start
 
 ## Deploying the application
 
-TBD: https://cloud.google.com/alloydb/docs/quickstart/integrate-cloud-run
+1. Clone this repository:
+```bash
+git clone http://github.com/jjdelorme/genwealth.git
+```
+
+1. **IMPORTANT** Set values in the `./env.sh` file for your environment
+
+1. Run the `./install.sh` script
+
+## Incremental builds of the application
+
+1. Run the `./deploy.sh` script
+
+
+
 

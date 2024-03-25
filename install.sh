@@ -5,7 +5,7 @@
 ###
 
 # Load env variables
-souce ./env.sh
+source ./env.sh
 
 PROJECT_ID=$(gcloud config get-value project)
 if [ -z "$PROJECT_ID" ]; then
