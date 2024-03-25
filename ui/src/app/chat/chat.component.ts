@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ChatConfigurationComponent } from './configuration/chat-configuration.component';
 import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
 import { ActivatedRoute } from '@angular/router';
+import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
 
 @Component({
   selector: 'app-chat',
@@ -47,6 +48,7 @@ export class ChatComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
+    private error: SnackBarErrorComponent,
     private genWealthClient: GenWealthServiceClient) {}  
 
   ngOnInit(): void {
@@ -59,9 +61,15 @@ export class ChatComponent implements OnInit {
   askQuestion() { 
     this.loading = true;
     this.genWealthClient.chat(this.chatRequest)
-      .subscribe({ next: response => {
-        this.chatResponse = response;
-        this.loading = false;
-      }});
+      .subscribe({ 
+        next: response => {
+          this.chatResponse = response;
+          this.loading = false;
+        },
+        error: err => {
+          this.error.showError('Error connecting to chat server', err);
+          this.loading = false;
+        },
+      });
   }
 }

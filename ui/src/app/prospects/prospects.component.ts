@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenWealthServiceClient, Prospect, QueryResponse } from '../services/genwealth-api';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { MatSlideToggleChange, MatSlideToggleModule } from '@angular/material/sl
 import { ProspectResultsComponent } from './results/prospect-results.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
 
 @Component({
   selector: 'app-prospects',
@@ -33,7 +34,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './prospects.component.scss'
 })
 export class ProspectsComponent {
-  constructor(private genWealthClient: GenWealthServiceClient) {}
+  constructor(
+    private genWealthClient: GenWealthServiceClient,
+    private error: SnackBarErrorComponent) {}
 
   prospectSearch: string = '';
   useFilters: boolean = false;
@@ -74,6 +77,11 @@ export class ProspectsComponent {
 
     this.prospects = 
       this.genWealthClient.semanticSearchProspects(this.prospectSearch,
-        riskFilter, minAgeFilter, maxAgeFilter);
+        riskFilter, minAgeFilter, maxAgeFilter).pipe(
+          catchError((err) => {
+            this.error.showError('Unable to search investments', err);
+            return [];
+          })
+        );
   }
 }

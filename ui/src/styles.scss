@@ -39,4 +39,9 @@ mat-card-title {
   padding-bottom: 8px;
 }
 
+.snackbar-error {
+  --mdc-snackbar-container-color: #FF0000;
+  span { color: black; }
+}
+
 @include mat.all-component-themes($cymbal-theme);

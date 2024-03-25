@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenWealthServiceClient, Investment, QueryResponse } from '../services/genwealth-api';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { InvestmentResultsComponent } from './results/investment-results.component';
+import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
 
 export enum SearchType {
   KEYWORD = 'keyword',
@@ -36,7 +37,9 @@ export enum SearchType {
   styleUrl: './investments.component.scss'
 })
 export class InvestmentsComponent {
-  constructor(private genWealthClient: GenWealthServiceClient) {}
+  constructor(
+    private genWealthClient: GenWealthServiceClient,
+    private error: SnackBarErrorComponent) {}
 
   searchTypes = SearchType;
 
@@ -52,11 +55,20 @@ export class InvestmentsComponent {
     switch (this.searchType) {
       case SearchType.KEYWORD:
         this.investments = 
-          this.genWealthClient.searchInvestments(this.investmentSearch.split(','));
+          this.genWealthClient.searchInvestments(this.investmentSearch.split(',')).pipe(
+            catchError((err) => {
+              this.error.showError('Unable to search investments', err);
+              return [];
+            })
+          );
         break;
       case SearchType.SEMANTIC:
         this.investments = 
-          this.genWealthClient.semanticSearchInvestments(this.investmentSearch);
+          this.genWealthClient.semanticSearchInvestments(this.investmentSearch).pipe(
+            catchError((err) => {
+              this.error.showError('Unable to search investments', err);
+              return [];
+            }));
         break;
       default:
         break;

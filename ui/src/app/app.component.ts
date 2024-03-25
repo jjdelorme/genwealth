@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { InvestmentsComponent } from './investments/investments.component';
 import { ProspectsComponent } from './prospects/prospects.component';
 import { ChatComponent } from './chat/chat.component';
+import { SnackBarErrorComponent } from './common/SnackBarErrorComponent';
 
 
 @Component({
@@ -29,6 +30,7 @@ import { ChatComponent } from './chat/chat.component';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  providers: [SnackBarErrorComponent]
 })
 export class AppComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver) {}

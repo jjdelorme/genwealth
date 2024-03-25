@@ -13,6 +13,7 @@ import { TickerAutocompleteComponent } from '../common/ticker-autocomplete/ticke
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextToHtmlPipe } from '../common/text-to-html.pipe';
 import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
+import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
 
 @Component({
   selector: 'app-research',
@@ -49,8 +50,9 @@ export class ResearchComponent {
   ragSummary? : string = undefined;
   ragPrompt?: string = undefined;
 
-  constructor(private genWealthClient: GenWealthServiceClient) {}
-
+  constructor(
+    private genWealthClient: GenWealthServiceClient,
+    private error: SnackBarErrorComponent) {}
 
   uploadProspectus(event: any) {
     const file = event.target.files[0];
@@ -64,7 +66,7 @@ export class ResearchComponent {
           this.uploading = false;
         },
         error: (error) => {
-          console.log('error', error);
+          this.error.showError('Unable to upload prospectus.', error);
           this.uploading = false;
         }
       });
@@ -93,7 +95,7 @@ export class ResearchComponent {
         this.searching = false;
       },
       error: (error) => {
-        console.log('error', error);
+        this.error.showError('Unable to search prospectus.', error);
         this.searching = false;
       }
     });
@@ -105,7 +107,7 @@ export class ResearchComponent {
         this.ragSearching = false;
       },
       error: (error) => {
-        console.log('error', error);
+        this.error.showError('Unable to search prospectus.', error);
         this.ragSearching = false;
       }
     });
