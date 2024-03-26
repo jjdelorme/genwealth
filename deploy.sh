@@ -13,7 +13,7 @@ fi
 TAG_NAME=$(git describe --abbrev=0 --tags)
 IMAGE=$REGION-docker.pkg.dev/$PROJECT_ID/genwealth/genwealth:$TAG_NAME
 
-docker build -t $IMAGE .
+docker build --rm -t $IMAGE .
 docker push $IMAGE
 
 #
