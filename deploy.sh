@@ -7,6 +7,9 @@ if [ -z "$REGION" ]; then
   exit 1
 fi
 
+# Get the latest tags.
+git fetch
+
 #
 # Build & push the container
 #
