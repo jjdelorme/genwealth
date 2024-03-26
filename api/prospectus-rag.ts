@@ -1,6 +1,5 @@
 import { Database } from "./database";
 import { VertexAI } from "@google-cloud/vertexai";
-import * as gcpMetadata from 'gcp-metadata';
 
 /** Use retrieval augmented search of Prospectus using AlloyDb embeddings & Gemini Pro.
  */
@@ -77,17 +76,11 @@ export class ProspectusRag {
 
     private async getProjectId(): Promise<string> {
         let projectId = process.env['PROJECT_ID'];
-        
-        const projectMetadata = await gcpMetadata.project();
-        projectId = projectMetadata.projectId;
-        console.log('project metadata', projectMetadata);
-        
-
-        if (!projectId)
-            //throw new Error("Unable to load project id from PROJECT_ID env variable or GCP metadata");
-            projectId = 'genwealth-demo-417213';
 
         console.log('using projectid', projectId);
+
+        if (!projectId)
+            throw new Error("Unable to load project id from PROJECT_ID env variable or GCP metadata");
 
         return projectId;
     }
