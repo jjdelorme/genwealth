@@ -77,12 +77,11 @@ export class ProspectusRag {
 
     private async getProjectId(): Promise<string> {
         let projectId = process.env['PROJECT_ID'];
-
-        if (!projectId && await gcpMetadata.isAvailable()) {
-            const projectMetadata = await gcpMetadata.project();
-            projectId = projectMetadata.projectId;
-            console.log('project metadata', projectMetadata);
-        }
+        
+        const projectMetadata = await gcpMetadata.project();
+        projectId = projectMetadata.projectId;
+        console.log('project metadata', projectMetadata);
+        
 
         if (!projectId)
             //throw new Error("Unable to load project id from PROJECT_ID env variable or GCP metadata");
