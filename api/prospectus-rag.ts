@@ -81,10 +81,12 @@ export class ProspectusRag {
         if (!projectId && await gcpMetadata.isAvailable()) {
             const projectMetadata = await gcpMetadata.project();
             projectId = projectMetadata.projectId;
+            console.log('project metadata', projectMetadata);
         }
 
         if (!projectId)
-            throw new Error("Unable to load project id from PROJECT_ID env variable or GCP metadata");
+            //throw new Error("Unable to load project id from PROJECT_ID env variable or GCP metadata");
+            projectId = 'genwealth-demo-417213';
 
         console.log('using projectid', projectId);
 
