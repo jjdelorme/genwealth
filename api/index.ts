@@ -154,7 +154,8 @@ app.get('/api/prospectus/rag-search', async (req, res) => {
   }
   catch (err) {
     console.error(err);
-    res.status(500).send(err);
+    const message = (err as Error)?.message ?? err;
+    res.status(500).send(message);
   }
 });
 
