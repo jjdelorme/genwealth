@@ -40,7 +40,7 @@ export class ProspectusRag {
         const aiRole = 'AI Role: You are a professional financial analyst who is tasked with answering questions about filings.  The context provided are excerpts from an SEC filing.';
         const prompt = `${aiRole}\n\nAnswer truthfully and only if you can find the answer for the following question in the context provided. \n\n<context>${context}\n</context>\n\nQuestion: ${userPrompt}`;
 
-        const projectId = await this.getProjectId();
+        const projectId = this.getProjectId();
         const region = process.env['REGION'];
         
         if (!region) throw new Error('Missing REGION env variable.');
@@ -74,7 +74,7 @@ export class ProspectusRag {
         return response;
     };
 
-    private async getProjectId(): Promise<string> {
+    private getProjectId(): string {
         let projectId = process.env['PROJECT_ID'];
 
         console.log('using projectid', projectId);
