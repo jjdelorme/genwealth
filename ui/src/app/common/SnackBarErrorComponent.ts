@@ -18,7 +18,7 @@ export class SnackBarErrorComponent {
   constructor(private snackBar: MatSnackBar) {}
 
   showError(message: string, error: any) {
-    this.snackBar.open(message, 'Close', {
+    this.snackBar.open('ERROR: ' + message, 'Close', {
         panelClass: 'snackbar-error'
     });
     console.error(message, error);
