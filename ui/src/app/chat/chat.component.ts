@@ -72,4 +72,8 @@ export class ChatComponent implements OnInit {
         },
       });
   }
+
+  getAskSuggestion() {
+    this.chatRequest.prompt = 'Hi Paul,\n\nI just unexpectedly inherited about $10k, and I’m not sure how I should invest it. What do you recommend? \n\nThanks,\nDonya Bartle';
+  }
 }

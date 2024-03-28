@@ -17,7 +17,7 @@
         <mat-form-field>
             <textarea cdkTextareaAutosize matInput (keydown.enter)="askQuestion()" [(ngModel)]="chatRequest.prompt" type="text" [placeholder]="chatPlaceholder"></textarea>
             <mat-icon matTooltip="Sample suggestion" matSuffix fontSet="material-symbols-outlined"
-                    (click)="chatRequest.prompt = 'I have $25250 to invest. What do you suggest?'">
+                    (click)="getAskSuggestion()">
                 prompt_suggestion
             </mat-icon>            
         </mat-form-field>
