@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenWealthServiceClient } from '../services/genwealth-api';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextToHtmlPipe } from '../common/text-to-html.pipe';
 import { SqlStatementComponent } from '../common/sql-statement/sql-statement.component';
 import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-research',
@@ -37,7 +38,8 @@ import { SnackBarErrorComponent } from '../common/SnackBarErrorComponent';
   styleUrl: './research.component.scss',
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
-export class ResearchComponent {
+export class ResearchComponent implements OnInit {
+  showUpload: boolean = false;
   showResults: boolean = false;
   searching: boolean = false;
   ragSearching: boolean = false;  
@@ -51,8 +53,15 @@ export class ResearchComponent {
   ragPrompt?: string = undefined;
 
   constructor(
+    private route: ActivatedRoute,
     private genWealthClient: GenWealthServiceClient,
     private error: SnackBarErrorComponent) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.showUpload = Boolean(params['show-upload']);
+    });
+  }
 
   uploadProspectus(event: any) {
     const file = event.target.files[0];

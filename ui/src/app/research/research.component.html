@@ -72,8 +72,8 @@
                         <button mat-raised-button color="primary" (click)="reset()">Upload Another</button>
                     } @else {
                         <p>Provide a ticker symbol and select a prospectus to upload.</p>
-                        <mat-form-field class="ticker" >
-                            <input matInput [(ngModel)]="uploadTicker" placeholder="Ticker">
+                        <mat-form-field class="ticker">
+                            <input matInput [(ngModel)]="uploadTicker" placeholder="Ticker" [disabled]="!showUpload">
                         </mat-form-field>
                         <input type="file" class="file-input" (change)="uploadProspectus($event)" #fileUpload>
                         <button mat-mini-fab color="primary" class="upload-button" 
