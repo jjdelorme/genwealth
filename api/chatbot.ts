@@ -63,7 +63,7 @@ export class Chatbot {
 
     private preamble = `            
         SELECT llm_prompt, llm_response 
-        FROM llm(
+        FROM llm_local(
         `;
 
     private userPreamble(userId: number) {
