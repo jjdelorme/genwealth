@@ -8,7 +8,7 @@ export class Investments {
         let query = `SELECT ticker, etf, rating, analysis
             FROM investments
             WHERE analysis LIKE '%${safeString(searchTerms[0]) ?? ''}%'`;
-        
+
         for (let i = 1; i < searchTerms.length; i++) {
             if (searchTerms[i].trim() !== '') {
                 query += `
@@ -25,7 +25,7 @@ export class Investments {
 
     async semanticSearch(prompt: string) {
         const query = `SELECT ticker, etf, rating, analysis, 
-            analysis_embedding <=> embedding('textembedding-gecko@003', '${safeString(prompt)}') AS distance
+            analysis_embedding_local <=> google_ml.embedding('textembedding-gte-large', '${safeString(prompt)}')::vector AS distance
             FROM investments
             ORDER BY distance
             LIMIT 5;`;
